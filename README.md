@@ -1,10 +1,8 @@
-# 🏦 Vibe Banking
-
-![Vibe Banking Hero](./public/assets/hero.png)
+# 🏦 Khmer Banking
 
 ## ✨ Overview
 
-**Vibe Banking** is a premium, full-stack digital banking application built with the latest modern web technologies. It provides a seamless and secure experience for managing finances, performing transfers, and tracking spending with a beautiful, responsive interface.
+**Khmer Banking** is a premium, full-stack digital banking application built with the latest modern web technologies. It provides a seamless and secure experience for managing finances, performing transfers, and tracking spending with a beautiful, responsive interface.
 
 The application features deep integration with the **Bakong KHQR** system, making it ideal for the Cambodian market while maintaining a global standard for design and security.
 
