@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useTransition } from "react"
 import { formatCurrency, formatDate } from "@/lib/utils"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -63,45 +63,42 @@ export default function TransactionsPage() {
     const [status, setStatus] = useState("ALL")
     const [page, setPage] = useState(1)
 
-    // ✅ Fetch account IDs once on mount — no setState in effect
-    const loadAccountIds = useCallback(async () => {
-        const res = await fetch("/api/accounts")
-        const result = await res.json()
-        if (result.success) {
-            setAccountIds(result.data.map((a: { id: string }) => a.id))
-        }
-    }, [])
+    // ✅ useTransition — the React Compiler-safe way to 
+    // trigger async state updates
+    const [, startTransition] = useTransition()
 
-    // ✅ Fetch transactions separately
-    const fetchTransactions = useCallback(async () => {
+    // ✅ Load accounts + transactions together in one effect
+    // State updates happen inside startTransition callback
+    useEffect(() => {
         setIsLoading(true)
-        try {
-            const params = new URLSearchParams({
-                page: page.toString(),
-                limit: "10",
-                ...(type !== "ALL" && { type }),
+
+        const params = new URLSearchParams({
+            page: page.toString(),
+            limit: "10",
+            ...(type !== "ALL" && { type }),
+        })
+
+        Promise.all([
+            fetch("/api/accounts").then((r) => r.json()),
+            fetch(`/api/transactions?${params}`).then((r) => r.json()),
+        ]).then(([accountResult, txnResult]) => {
+            startTransition(() => {
+                if (accountResult.success) {
+                    setAccountIds(
+                        accountResult.data.map((a: { id: string }) => a.id)
+                    )
+                }
+                if (txnResult.success) {
+                    setTransactions(txnResult.data.transactions)
+                    setPagination(txnResult.data.pagination)
+                }
+                setIsLoading(false)
             })
-            const res = await fetch(`/api/transactions?${params}`)
-            const result = await res.json()
-            if (result.success) {
-                setTransactions(result.data.transactions)
-                setPagination(result.data.pagination)
-            }
-        } catch (err) {
-            console.error("[FETCH_TRANSACTIONS_ERROR]", err)
-        } finally {
-            setIsLoading(false)
-        }
-    }, [page, type])
-
-    // ✅ startTransition pattern — avoids setState-in-effect lint error
-    useEffect(() => {
-        void loadAccountIds()
-    }, [loadAccountIds])
-
-    useEffect(() => {
-        void fetchTransactions()
-    }, [fetchTransactions])
+        }).catch((err) => {
+            console.error("[FETCH_ERROR]", err)
+            startTransition(() => setIsLoading(false))
+        })
+    }, [page, type]) // ✅ Direct deps — no useCallback needed
 
     // ─── Client-side search + status filter ──────────────────
     const filtered = transactions.filter((txn) => {
@@ -164,10 +161,18 @@ export default function TransactionsPage() {
                                     <SelectValue placeholder="Type" />
                                 </SelectTrigger>
                                 <SelectContent className="bg-slate-800 border-slate-700">
-                                    <SelectItem value="ALL" className="text-white">All Types</SelectItem>
-                                    <SelectItem value="TRANSFER" className="text-white">Transfer</SelectItem>
-                                    <SelectItem value="DEPOSIT" className="text-white">Deposit</SelectItem>
-                                    <SelectItem value="WITHDRAWAL" className="text-white">Withdrawal</SelectItem>
+                                    <SelectItem value="ALL" className="text-white">
+                                        All Types
+                                    </SelectItem>
+                                    <SelectItem value="TRANSFER" className="text-white">
+                                        Transfer
+                                    </SelectItem>
+                                    <SelectItem value="DEPOSIT" className="text-white">
+                                        Deposit
+                                    </SelectItem>
+                                    <SelectItem value="WITHDRAWAL" className="text-white">
+                                        Withdrawal
+                                    </SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -184,11 +189,21 @@ export default function TransactionsPage() {
                                     <SelectValue placeholder="Status" />
                                 </SelectTrigger>
                                 <SelectContent className="bg-slate-800 border-slate-700">
-                                    <SelectItem value="ALL" className="text-white">All Status</SelectItem>
-                                    <SelectItem value="COMPLETED" className="text-white">Completed</SelectItem>
-                                    <SelectItem value="PENDING" className="text-white">Pending</SelectItem>
-                                    <SelectItem value="FAILED" className="text-white">Failed</SelectItem>
-                                    <SelectItem value="REVERSED" className="text-white">Reversed</SelectItem>
+                                    <SelectItem value="ALL" className="text-white">
+                                        All Status
+                                    </SelectItem>
+                                    <SelectItem value="COMPLETED" className="text-white">
+                                        Completed
+                                    </SelectItem>
+                                    <SelectItem value="PENDING" className="text-white">
+                                        Pending
+                                    </SelectItem>
+                                    <SelectItem value="FAILED" className="text-white">
+                                        Failed
+                                    </SelectItem>
+                                    <SelectItem value="REVERSED" className="text-white">
+                                        Reversed
+                                    </SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -335,7 +350,9 @@ function TransactionRow({
                         txn.currency as "USD" | "KHR"
                     )}
                 </p>
-                <Badge className={`text-xs border mt-1 ${statusColors[txn.status]}`}>
+                <Badge
+                    className={`text-xs border mt-1 ${statusColors[txn.status]}`}
+                >
                     {txn.status}
                 </Badge>
             </div>

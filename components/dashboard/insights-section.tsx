@@ -46,7 +46,7 @@ export function InsightsSection() {
         return (
             <div className="space-y-6">
                 <Skeleton className="h-80 w-full bg-slate-800" />
-                <Skeleton className="h-70 w-full bg-slate-800" />
+                <Skeleton className="h-72 w-full bg-slate-800" />
             </div>
         )
     }

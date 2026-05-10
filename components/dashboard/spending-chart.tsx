@@ -25,6 +25,20 @@ type Transaction = {
     isSender: boolean
 }
 
+// ✅ Recharts-safe formatter type
+type TooltipValue = string | number | (string | number)[]
+
+// ─── Shared formatter helper ─────────────────────────────────
+function makeFormatter(currency: string) {
+    return (amount: number) =>
+        currency === "KHR"
+            ? `₭${amount.toLocaleString("en-US", { maximumFractionDigits: 0 })}`
+            : `$${amount.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+              })}`
+}
+
 // ─── Area Chart — 6 Month Flow ───────────────────────────────
 export function SpendingFlowChart({
     transactions,
@@ -33,11 +47,16 @@ export function SpendingFlowChart({
     transactions: Transaction[]
     currency?: string
 }) {
+    // ✅ formatValue is defined in scope where it's used
+    const formatValue = makeFormatter(currency)
+
     const data = useMemo(() => {
         const now = new Date()
-        const months: Record<string, { month: string; sent: number; received: number }> = {}
+        const months: Record<
+            string,
+            { month: string; sent: number; received: number }
+        > = {}
 
-        // Build last 6 months
         for (let i = 5; i >= 0; i--) {
             const d = new Date(now.getFullYear(), now.getMonth() - i, 1)
             const key = `${d.getFullYear()}-${d.getMonth()}`
@@ -45,14 +64,12 @@ export function SpendingFlowChart({
             months[key] = { month: label, sent: 0, received: 0 }
         }
 
-        // Fill with transaction data
         transactions
             .filter((t) => t.currency === currency)
             .forEach((txn) => {
                 const d = new Date(txn.createdAt)
                 const key = `${d.getFullYear()}-${d.getMonth()}`
                 if (!months[key]) return
-
                 const amount = parseFloat(txn.amount)
                 if (txn.isSender) {
                     months[key].sent += amount
@@ -67,11 +84,6 @@ export function SpendingFlowChart({
     const totalSent = data.reduce((s, d) => s + d.sent, 0)
     const totalReceived = data.reduce((s, d) => s + d.received, 0)
 
-    const formatValue = (val: number) =>
-        currency === "KHR"
-            ? `₭${val.toLocaleString()}`
-            : `$${val.toFixed(2)}`
-
     return (
         <Card className="bg-slate-900 border-slate-800">
             <CardHeader>
@@ -84,7 +96,6 @@ export function SpendingFlowChart({
                     </CardTitle>
                 </div>
 
-                {/* Summary Row */}
                 <div className="flex gap-6 pt-2">
                     <div className="flex items-center gap-2">
                         <TrendingUp className="w-4 h-4 text-green-400" />
@@ -121,16 +132,41 @@ export function SpendingFlowChart({
                 <ResponsiveContainer width="100%" height={220}>
                     <AreaChart data={data}>
                         <defs>
-                            <linearGradient id="receivedGrad" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#22c55e" stopOpacity={0.3} />
-                                <stop offset="95%" stopColor="#22c55e" stopOpacity={0} />
+                            <linearGradient
+                                id="receivedGrad"
+                                x1="0" y1="0" x2="0" y2="1"
+                            >
+                                <stop
+                                    offset="5%"
+                                    stopColor="#22c55e"
+                                    stopOpacity={0.3}
+                                />
+                                <stop
+                                    offset="95%"
+                                    stopColor="#22c55e"
+                                    stopOpacity={0}
+                                />
                             </linearGradient>
-                            <linearGradient id="sentGrad" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3} />
-                                <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
+                            <linearGradient
+                                id="sentGrad"
+                                x1="0" y1="0" x2="0" y2="1"
+                            >
+                                <stop
+                                    offset="5%"
+                                    stopColor="#ef4444"
+                                    stopOpacity={0.3}
+                                />
+                                <stop
+                                    offset="95%"
+                                    stopColor="#ef4444"
+                                    stopOpacity={0}
+                                />
                             </linearGradient>
                         </defs>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                        <CartesianGrid
+                            strokeDasharray="3 3"
+                            stroke="#1e293b"
+                        />
                         <XAxis
                             dataKey="month"
                             tick={{ fill: "#64748b", fontSize: 12 }}
@@ -141,7 +177,7 @@ export function SpendingFlowChart({
                             tick={{ fill: "#64748b", fontSize: 11 }}
                             axisLine={false}
                             tickLine={false}
-                            tickFormatter={(v) =>
+                            tickFormatter={(v: number) =>
                                 currency === "KHR"
                                     ? `₭${(v / 1000).toFixed(0)}k`
                                     : `$${v}`
@@ -154,10 +190,22 @@ export function SpendingFlowChart({
                                 borderRadius: "8px",
                             }}
                             labelStyle={{ color: "#94a3b8" }}
-                            formatter={(value: any) => [
-                                formatValue(Number(value || 0)),
-                                "Amount"
-                            ]}
+                            // ✅ Properly typed — no any
+                            formatter={(
+                                value: TooltipValue,
+                                name: string
+                            ): [string, string] => {
+                                const num =
+                                    typeof value === "number"
+                                        ? value
+                                        : parseFloat(String(value))
+                                return [
+                                    formatValue(isNaN(num) ? 0 : num),
+                                    name === "received"
+                                        ? "Money In"
+                                        : "Money Out",
+                                ]
+                            }}
                         />
                         <Area
                             type="monotone"
@@ -180,7 +228,7 @@ export function SpendingFlowChart({
     )
 }
 
-// ─── Bar Chart — Monthly Breakdown ───────────────────────────
+// ─── Bar Chart — 14 Day Spending ─────────────────────────────
 export function MonthlyBreakdownChart({
     transactions,
     currency = "USD",
@@ -188,11 +236,13 @@ export function MonthlyBreakdownChart({
     transactions: Transaction[]
     currency?: string
 }) {
+    // ✅ formatValue in scope
+    const formatValue = makeFormatter(currency)
+
     const data = useMemo(() => {
         const now = new Date()
         const days: Record<string, { day: string; amount: number }> = {}
 
-        // Last 14 days
         for (let i = 13; i >= 0; i--) {
             const d = new Date(now)
             d.setDate(d.getDate() - i)
@@ -209,7 +259,9 @@ export function MonthlyBreakdownChart({
         transactions
             .filter((t) => t.currency === currency && t.isSender)
             .forEach((txn) => {
-                const key = new Date(txn.createdAt).toISOString().slice(0, 10)
+                const key = new Date(txn.createdAt)
+                    .toISOString()
+                    .slice(0, 10)
                 if (!days[key]) return
                 days[key].amount += parseFloat(txn.amount)
             })
@@ -248,7 +300,7 @@ export function MonthlyBreakdownChart({
                             tick={{ fill: "#64748b", fontSize: 11 }}
                             axisLine={false}
                             tickLine={false}
-                            tickFormatter={(v) =>
+                            tickFormatter={(v: number) =>
                                 currency === "KHR" ? `₭${v}` : `$${v}`
                             }
                         />
@@ -259,10 +311,19 @@ export function MonthlyBreakdownChart({
                                 borderRadius: "8px",
                             }}
                             labelStyle={{ color: "#94a3b8" }}
-                            formatter={(value: any) => [
-                                formatValue(Number(value || 0)),
-                                "Spent"
-                            ]}
+                            // ✅ Properly typed — no any
+                            formatter={(
+                                value: TooltipValue
+                            ): [string, string] => {
+                                const num =
+                                    typeof value === "number"
+                                        ? value
+                                        : parseFloat(String(value))
+                                return [
+                                    formatValue(isNaN(num) ? 0 : num),
+                                    "Spent",
+                                ]
+                            }}
                         />
                         <Bar dataKey="amount" radius={[4, 4, 0, 0]}>
                             {data.map((entry, index) => (

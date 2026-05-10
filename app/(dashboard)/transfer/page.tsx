@@ -2,7 +2,7 @@
 "use client"
 
 import { useState, useRef } from "react"
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { TransferSchema, type TransferInput } from "@/lib/validations"
 import { useTransfer } from "@/hooks/use-transfer"
@@ -51,7 +51,7 @@ export default function TransferPage() {
     const {
         register,
         handleSubmit,
-        watch,
+        control,
         setValue,
         getValues,
         formState: { errors },
@@ -62,8 +62,8 @@ export default function TransferPage() {
         },
     })
 
-    const watchedAmount = watch("amount")
-    const watchedCurrency = watch("currency")
+    const watchedAmount = useWatch({ control, name: "amount" })
+    const watchedCurrency = useWatch({ control, name: "currency" })
 
     // ─── Step 1: Request OTP ──────────────────────────────────
     const handleRequestOtp = handleSubmit(async () => {
