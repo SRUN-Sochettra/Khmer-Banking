@@ -1,0 +1,148 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────
+// USER
+// ─────────────────────────────────────────
+model User {
+  id            String    @id @default(cuid())
+  fullName      String
+  email         String    @unique
+  phone         String    @unique
+  passwordHash  String
+  avatarUrl     String?
+  isVerified    Boolean   @default(false)
+  isTwoFAEnabled Boolean  @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  accounts      Account[]
+  auditLogs     AuditLog[]
+  otpCodes      OtpCode[]
+
+  @@map("users")
+}
+
+// ─────────────────────────────────────────
+// ACCOUNT (A user can have multiple accounts)
+// ─────────────────────────────────────────
+model Account {
+  id            String        @id @default(cuid())
+  userId        String
+  accountNumber String        @unique
+  accountType   AccountType   @default(SAVINGS)
+  currency      Currency      @default(USD)
+  balance       Decimal       @db.Decimal(19, 4)
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Relations
+  user               User          @relation(fields: [userId], references: [id])
+  sentTransactions   Transaction[] @relation("SenderAccount")
+  receivedTransactions Transaction[] @relation("ReceiverAccount")
+
+  @@map("accounts")
+}
+
+// ─────────────────────────────────────────
+// TRANSACTION
+// ─────────────────────────────────────────
+model Transaction {
+  id                String            @id @default(cuid())
+  senderAccountId   String
+  receiverAccountId String
+  amount            Decimal           @db.Decimal(19, 4)
+  currency          Currency          @default(USD)
+  type              TransactionType
+  status            TransactionStatus @default(PENDING)
+  description       String?
+  reference         String            @unique // e.g. TXN-2024-XXXXXX
+  createdAt         DateTime          @default(now())
+  completedAt       DateTime?
+
+  // Relations
+  senderAccount     Account           @relation("SenderAccount", fields: [senderAccountId], references: [id])
+  receiverAccount   Account           @relation("ReceiverAccount", fields: [receiverAccountId], references: [id])
+
+  @@map("transactions")
+}
+
+// ─────────────────────────────────────────
+// AUDIT LOG (Compliance requirement)
+// ─────────────────────────────────────────
+model AuditLog {
+  id          String   @id @default(cuid())
+  userId      String
+  action      String   // e.g. "LOGIN", "TRANSFER", "CHANGED_PASSWORD"
+  ipAddress   String?
+  userAgent   String?
+  metadata    Json?    // Extra data about the action
+  createdAt   DateTime @default(now())
+
+  // Relations
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
+}
+
+// ─────────────────────────────────────────
+// OTP CODE
+// ─────────────────────────────────────────
+model OtpCode {
+  id        String   @id @default(cuid())
+  userId    String
+  code      String
+  type      OtpType
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  // Relations
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("otp_codes")
+}
+
+// ─────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────
+enum AccountType {
+  SAVINGS
+  CHECKING
+  FIXED_DEPOSIT
+}
+
+enum Currency {
+  USD
+  KHR
+}
+
+enum TransactionType {
+  TRANSFER
+  DEPOSIT
+  WITHDRAWAL
+  FEE
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REVERSED
+}
+
+enum OtpType {
+  LOGIN
+  TRANSFER
+  CHANGE_PASSWORD
+}
