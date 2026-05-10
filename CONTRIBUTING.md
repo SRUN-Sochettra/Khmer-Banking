@@ -1,6 +1,6 @@
-# Contributing to Vibe Banking
+# Contributing to Khmer Banking
 
-First off, thank you for considering contributing to Vibe Banking! It's people like you that make Vibe Banking such a great tool.
+First off, thank you for considering contributing to Khmer Banking! It's people like you that make Vibe Banking such a great tool.
 
 ## Code of Conduct
 
