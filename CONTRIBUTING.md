@@ -1,6 +1,6 @@
 # Contributing to Khmer Banking
 
-First off, thank you for considering contributing to Khmer Banking! It's people like you that make Vibe Banking such a great tool.
+First off, thank you for considering contributing to Khmer Banking! It's people like you that make Khmer Banking such a great tool.
 
 ## Code of Conduct
 
@@ -10,7 +10,7 @@ This project and everyone participating in it is governed by the [Code of Conduc
 
 ### Reporting Bugs
 
-This section guides you through submitting a bug report for Vibe Banking. Following these guidelines helps maintainers and the community understand your report, reproduce the behavior, and find related reports.
+This section guides you through submitting a bug report for Khmer Banking. Following these guidelines helps maintainers and the community understand your report, reproduce the behavior, and find related reports.
 
 *   **Use a clear and descriptive title** for the issue to identify the problem.
 *   **Describe the exact steps which reproduce the problem** in as many details as possible.
@@ -19,15 +19,15 @@ This section guides you through submitting a bug report for Vibe Banking. Follow
 
 ### Suggesting Enhancements
 
-This section guides you through submitting an enhancement suggestion for Vibe Banking, including completely new features and minor improvements to existing functionality.
+This section guides you through submitting an enhancement suggestion for Khmer Banking, including completely new features and minor improvements to existing functionality.
 
 *   **Use a clear and descriptive title** for the issue to identify the suggestion.
 *   **Provide a step-by-step description of the suggested enhancement** in as many details as possible.
-*   **Explain why this enhancement would be useful** to most Vibe Banking users.
+*   **Explain why this enhancement would be useful** to most Khmer Banking users.
 
 ### Your First Code Contribution
 
-Unsure where to begin contributing to Vibe Banking? You can start by looking through these `beginner` and `help-wanted` issues:
+Unsure where to begin contributing to Khmer Banking? You can start by looking through these `beginner` and `help-wanted` issues:
 
 *   **Beginner issues** - issues which should only require a few lines of code, and a test or two.
 *   **Help wanted issues** - issues which should be a bit more involved than `beginner` issues.

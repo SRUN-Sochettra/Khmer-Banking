@@ -11,7 +11,7 @@ The following versions of Khmer Banking are currently being supported with secur
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability within Vibe Banking, please send an e-mail to the maintainer. All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within Khmer Banking, please send an e-mail to the maintainer. All security vulnerabilities will be promptly addressed.
 
 Please include the following information in your report:
 
