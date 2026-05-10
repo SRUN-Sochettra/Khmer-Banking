@@ -70,7 +70,7 @@ export default function TransactionsPage() {
     // ✅ Load accounts + transactions together in one effect
     // State updates happen inside startTransition callback
     useEffect(() => {
-        setIsLoading(true)
+        startTransition(() => setIsLoading(true))
 
         const params = new URLSearchParams({
             page: page.toString(),

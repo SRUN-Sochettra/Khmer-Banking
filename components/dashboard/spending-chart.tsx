@@ -17,6 +17,8 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { TrendingUp, TrendingDown } from "lucide-react"
 
+import type { ValueType, NameType } from "recharts/types/component/DefaultTooltipContent"
+
 type Transaction = {
     id: string
     amount: string
@@ -25,8 +27,9 @@ type Transaction = {
     isSender: boolean
 }
 
-// ✅ Recharts-safe formatter type
-type TooltipValue = string | number | (string | number)[]
+// ✅ Recharts-safe formatter types
+type TV = ValueType | undefined
+type TN = NameType | undefined
 
 // ─── Shared formatter helper ─────────────────────────────────
 function makeFormatter(currency: string) {
@@ -192,13 +195,13 @@ export function SpendingFlowChart({
                             labelStyle={{ color: "#94a3b8" }}
                             // ✅ Properly typed — no any
                             formatter={(
-                                value: TooltipValue,
-                                name: string
+                                value: TV,
+                                name: TN
                             ): [string, string] => {
                                 const num =
                                     typeof value === "number"
                                         ? value
-                                        : parseFloat(String(value))
+                                        : parseFloat(String(value ?? 0))
                                 return [
                                     formatValue(isNaN(num) ? 0 : num),
                                     name === "received"
@@ -313,12 +316,12 @@ export function MonthlyBreakdownChart({
                             labelStyle={{ color: "#94a3b8" }}
                             // ✅ Properly typed — no any
                             formatter={(
-                                value: TooltipValue
+                                value: TV
                             ): [string, string] => {
                                 const num =
                                     typeof value === "number"
                                         ? value
-                                        : parseFloat(String(value))
+                                        : parseFloat(String(value ?? 0))
                                 return [
                                     formatValue(isNaN(num) ? 0 : num),
                                     "Spent",

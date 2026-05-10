@@ -52,7 +52,7 @@ export default function HomePage() {
 
         <h1 className="text-5xl md:text-7xl font-bold leading-tight tracking-tight mb-6">
           Banking that{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-blue-600">
             works for you
           </span>
         </h1>
@@ -187,7 +187,7 @@ export default function HomePage() {
       {/* ── CTA Banner ─────────────────────────────────────── */}
       <section className="border-t border-slate-800">
         <div className="max-w-6xl mx-auto px-6 py-20 text-center">
-          <div className="bg-gradient-to-br from-blue-600/20 to-blue-800/20 border border-blue-500/20 rounded-2xl p-12">
+          <div className="bg-linear-to-br from-blue-600/20 to-blue-800/20 border border-blue-500/20 rounded-2xl p-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Ready to get started?
             </h2>
