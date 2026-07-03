@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { redirect } from "next/navigation"
 import { formatCurrency, maskAccountNumber } from "@/lib/utils"
+import { CopyButton } from "@/components/ui/copy-button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CreditCard, ArrowUpRight, ArrowDownLeft, Wallet } from "lucide-react"
 import Link from "next/link"
@@ -73,7 +74,7 @@ export default async function DashboardPage() {
                                 )}
                             </div>
                             <p className="text-xs text-slate-500 mt-1 font-mono">
-                                {maskAccountNumber(account.accountNumber)}
+                                {maskAccountNumber(account.accountNumber)} <CopyButton value={account.accountNumber} className="ml-1 opacity-50 hover:opacity-100" />
                             </p>
                         </CardContent>
                     </Card>

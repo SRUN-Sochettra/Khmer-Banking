@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
                 currentPage: page
             }
         }))
-    } catch (error) {
+    } catch {
         return NextResponse.json(errorResponse("Failed to fetch logs"), { status: 500 })
     }
 }

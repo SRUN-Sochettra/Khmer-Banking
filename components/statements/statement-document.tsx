@@ -6,7 +6,7 @@ import {
     Text,
     View,
     StyleSheet,
-    Font,
+    DocumentProps,
 } from "@react-pdf/renderer"
 import { format } from "date-fns"
 
@@ -291,7 +291,7 @@ function formatAmount(amount: string, currency: string): string {
 }
 
 // ─── Main PDF Document ────────────────────────────────────────
-export function StatementDocument({ data }: { data: StatementData }) {
+export function StatementDocument({ data }: { data: StatementData } & Partial<DocumentProps>) {
     const {
         user,
         account,
