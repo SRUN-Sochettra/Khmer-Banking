@@ -28,6 +28,7 @@ export default function VerifyOtpPage() {
             const timer = setTimeout(() => setCountdown(countdown - 1), 1000)
             return () => clearTimeout(timer)
         } else {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setCanResend(true)
         }
     }, [countdown])
@@ -117,7 +118,24 @@ export default function VerifyOtpPage() {
     const handleResend = async () => {
         setIsResending(true)
         try {
-            // TODO: Add resend endpoint
+            const userId = sessionStorage.getItem("pendingUserId")
+            if (!userId) {
+                toast.error("Session expired. Please register again.")
+                router.push("/register")
+                return
+            }
+            const res = await fetch("/api/auth/resend-otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId }),
+            })
+
+            const result = await res.json()
+
+            if (!result.success) {
+                toast.error(result.message)
+                return
+            }
             toast.success("A new code has been sent to your email")
             setCountdown(60)
             setCanResend(false)

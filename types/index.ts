@@ -1,6 +1,6 @@
 // types/index.ts
 
-import { User, Account, Transaction, AuditLog } from "@prisma/client"
+import { User, Account, Transaction } from "@prisma/client"
 
 // ─── Extended Types ──────────────────────────────────────────
 export type UserWithAccounts = User & {

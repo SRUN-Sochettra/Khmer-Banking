@@ -177,7 +177,7 @@ export async function GET(req: NextRequest) {
         // ─── Stream PDF to Browser ────────────────────────────────
         const fileName = `KhmerBank_Statement_${monthNames[month - 1]}_${year}.pdf`
 
-        return new NextResponse(pdfBuffer, {
+        return new NextResponse(pdfBuffer as unknown as BodyInit, {
             status: 200,
             headers: {
                 "Content-Type": "application/pdf",

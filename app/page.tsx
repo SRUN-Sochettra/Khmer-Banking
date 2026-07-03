@@ -184,6 +184,35 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Upcoming Features ─────────────────────────────── */}
+      <section className="border-t border-slate-800 bg-slate-900/50">
+        <div className="max-w-6xl mx-auto px-6 py-24">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Coming Soon
+            </h2>
+            <p className="text-slate-400 text-lg max-w-xl mx-auto">
+              We are constantly working to improve KhmerBank. Here is what is on the roadmap.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <FeatureCard
+              icon={<Zap className="w-6 h-6 text-yellow-400" />}
+              iconBg="bg-yellow-500/10"
+              title="Instant Loan Approvals"
+              description="Get access to credit in seconds with our upcoming AI-powered loan approval system."
+            />
+            <FeatureCard
+              icon={<ShieldCheck className="w-6 h-6 text-emerald-400" />}
+              iconBg="bg-emerald-500/10"
+              title="Advanced Security Analytics"
+              description="Detailed insights and AI monitoring for your account activity."
+            />
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA Banner ─────────────────────────────────────── */}
       <section className="border-t border-slate-800">
         <div className="max-w-6xl mx-auto px-6 py-20 text-center">

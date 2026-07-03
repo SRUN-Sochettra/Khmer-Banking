@@ -1,4 +1,3 @@
-// components/dashboard/sidebar.tsx
 "use client"
 
 import Link from "next/link"
@@ -12,9 +11,10 @@ import {
     ShieldCheck,
     Settings,
     LogOut,
-    Building2
+    Building2,
+    User
 } from "lucide-react"
-import { signOut } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 
 const routes = [
     { label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
@@ -27,6 +27,7 @@ const routes = [
 
 export function Sidebar() {
     const pathname = usePathname()
+    const { data: session } = useSession()
 
     return (
         <div className="flex flex-col h-full bg-slate-900 text-slate-300 w-64 border-r border-slate-800">
@@ -58,7 +59,24 @@ export function Sidebar() {
                 ))}
             </nav>
 
-            <div className="p-4 border-t border-slate-800">
+            <div className="p-4 border-t border-slate-800 space-y-4">
+                {/* User Profile Summary */}
+                {session?.user && (
+                    <div className="flex items-center gap-3 px-3 py-2 rounded-lg bg-slate-800/50">
+                        <div className="bg-slate-700 p-2 rounded-full shrink-0">
+                            <User className="w-5 h-5 text-slate-300" />
+                        </div>
+                        <div className="overflow-hidden">
+                            <p className="text-sm font-medium text-white truncate">
+                                {session.user.name}
+                            </p>
+                            <p className="text-xs text-slate-400 truncate">
+                                {session.user.email}
+                            </p>
+                        </div>
+                    </div>
+                )}
+
                 <button
                     onClick={() => signOut({ callbackUrl: "/login" })}
                     className="flex items-center gap-3 px-3 py-2 w-full rounded-lg text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-colors"

@@ -1,10 +1,9 @@
-// app/api/transactions/route.ts
-
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { errorResponse, successResponse } from "@/lib/utils"
-import { TransactionType } from "@prisma/client"
+import { TransactionType, TransactionStatus } from "@prisma/client"
+import { Prisma } from "@prisma/client"
 
 export async function GET(req: NextRequest) {
     try {
@@ -18,6 +17,8 @@ export async function GET(req: NextRequest) {
         const page = Math.max(1, parseInt(searchParams.get("page") ?? "1"))
         const limit = Math.min(50, Math.max(1, parseInt(searchParams.get("limit") ?? "10")))
         const type = searchParams.get("type")
+        const status = searchParams.get("status")
+        const query = searchParams.get("query")
         const skip = (page - 1) * limit
 
         // ✅ Validate transaction type against the actual enum
@@ -27,10 +28,24 @@ export async function GET(req: NextRequest) {
             : undefined
 
         // ✅ If type was provided but invalid, reject it
-        if (type && !filterType) {
+        if (type && type !== "ALL" && !filterType) {
             return NextResponse.json(
                 errorResponse(
                     `Invalid transaction type. Must be one of: ${validTypes.join(", ")}`
+                ),
+                { status: 400 }
+            )
+        }
+
+        const validStatuses = Object.values(TransactionStatus)
+        const filterStatus = status && validStatuses.includes(status as TransactionStatus)
+            ? (status as TransactionStatus)
+            : undefined
+
+        if (status && status !== "ALL" && !filterStatus) {
+            return NextResponse.json(
+                errorResponse(
+                    `Invalid transaction status. Must be one of: ${validStatuses.join(", ")}`
                 ),
                 { status: 400 }
             )
@@ -45,12 +60,42 @@ export async function GET(req: NextRequest) {
         const accountIds = userAccounts.map((a) => a.id)
 
         // ─── Build Filter ────────────────────────────────────────
-        const where = {
-            OR: [
-                { senderAccountId: { in: accountIds } },
-                { receiverAccountId: { in: accountIds } },
+        const where: Prisma.TransactionWhereInput = {
+            AND: [
+                {
+                    OR: [
+                        { senderAccountId: { in: accountIds } },
+                        { receiverAccountId: { in: accountIds } },
+                    ],
+                }
             ],
-            ...(filterType && { type: filterType }),
+        }
+
+        if (filterType) {
+            (where.AND as Prisma.TransactionWhereInput[]).push({ type: filterType })
+        }
+
+        if (filterStatus) {
+            (where.AND as Prisma.TransactionWhereInput[]).push({ status: filterStatus })
+        }
+
+        if (query) {
+            (where.AND as Prisma.TransactionWhereInput[]).push({
+                OR: [
+                    { reference: { contains: query, mode: "insensitive" } },
+                    { description: { contains: query, mode: "insensitive" } },
+                    {
+                        senderAccount: {
+                            user: { fullName: { contains: query, mode: "insensitive" } }
+                        }
+                    },
+                    {
+                        receiverAccount: {
+                            user: { fullName: { contains: query, mode: "insensitive" } }
+                        }
+                    }
+                ]
+            })
         }
 
         // ─── Fetch Transactions + Count ──────────────────────────

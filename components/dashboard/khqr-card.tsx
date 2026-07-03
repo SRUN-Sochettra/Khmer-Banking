@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Download, Share2, Loader2, RefreshCw } from "lucide-react"
+import { CopyButton } from "./../ui/copy-button"
 import QRCode from "qrcode"
 import { toast } from "sonner"
 import { generateKHQRAction } from "@/app/actions/khqr"
@@ -169,7 +170,7 @@ export function KHQRCard({ accountNumber, accountName }: KHQRCardProps) {
                     <div className="text-center">
                         <p className="text-sm opacity-80">Scan to pay</p>
                         <p className="font-bold text-lg">{accountName}</p>
-                        <p className="font-mono text-sm opacity-70">{accountNumber}</p>
+                        <p className="font-mono text-sm opacity-70">{accountNumber} <CopyButton value={accountNumber} className="ml-1" /></p>
                     </div>
 
                     {/* MD5 — for verification, shown subtly */}

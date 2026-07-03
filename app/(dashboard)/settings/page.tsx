@@ -2,6 +2,9 @@
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { redirect } from "next/navigation"
+import Link from "next/link"
+import { ThemeToggle } from "@/components/theme-toggle"
+import { CopyButton } from "@/components/ui/copy-button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import {
     User,
@@ -142,13 +145,13 @@ export default async function SettingsPage() {
                                 </p>
                             </div>
                         </div>
-                        <a
+                        <Link
                             href="/security"
                             className="flex items-center gap-1 text-blue-400 hover:text-blue-300 text-xs font-medium transition-colors"
                         >
                             Change
                             <ChevronRight className="w-3 h-3" />
-                        </a>
+                        </Link>
                     </div>
 
                 </CardContent>
@@ -183,7 +186,7 @@ export default async function SettingsPage() {
                                         </span>
                                     </p>
                                     <p className="text-slate-500 text-xs font-mono">
-                                        {maskAccountNumber(account.accountNumber)}
+                                        {maskAccountNumber(account.accountNumber)} <CopyButton value={account.accountNumber} className="ml-1 opacity-50 hover:opacity-100" />
                                     </p>
                                 </div>
                             </div>
@@ -228,6 +231,28 @@ export default async function SettingsPage() {
                         description="Notify when monthly statement is available"
                         enabled={false}
                     />
+                </CardContent>
+            </Card>
+
+            <Card className="bg-slate-900 border-slate-800">
+                <CardHeader>
+                    <CardTitle className="text-white flex items-center gap-2">
+                        Theme Settings
+                    </CardTitle>
+                    <CardDescription className="text-slate-400">
+                        Manage your application theme
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                    <div className="flex items-center justify-between p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                        <div className="flex items-center gap-3">
+                            <div>
+                                <p className="text-white text-sm font-medium">Dark Mode</p>
+                                <p className="text-slate-500 text-xs">Toggle application theme</p>
+                            </div>
+                        </div>
+                        <ThemeToggle />
+                    </div>
                 </CardContent>
             </Card>
 

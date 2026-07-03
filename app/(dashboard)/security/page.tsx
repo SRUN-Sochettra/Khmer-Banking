@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Skeleton } from "@/components/ui/skeleton"
 import {
     ShieldCheck,
     History,
@@ -139,8 +140,10 @@ export default function SecurityPage() {
                         </CardHeader>
                         <CardContent>
                             {isLoading ? (
-                                <div className="py-20 text-center text-slate-500">
-                                    Loading logs...
+                                <div className="space-y-6 px-4 py-8">
+                                    {Array.from({ length: 5 }).map((_, i) => (
+                                        <Skeleton key={i} className="h-20 w-full bg-slate-800/50 rounded-xl" />
+                                    ))}
                                 </div>
                             ) : (
                                 <ScrollArea className="h-125 pr-4">

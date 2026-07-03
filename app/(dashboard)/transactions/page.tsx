@@ -1,10 +1,11 @@
 "use client"
 
 import { useEffect, useState, useTransition } from "react"
-import { formatCurrency, formatDate } from "@/lib/utils"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 import {
     Select,
     SelectContent,
@@ -12,24 +13,24 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
 import {
+    Search,
+    Filter,
     ArrowUpRight,
     ArrowDownLeft,
-    Search,
     X,
-    Filter,
 } from "lucide-react"
-import { Skeleton } from "@/components/ui/skeleton"
+import { formatCurrency, formatDate } from "@/lib/utils"
+import { useDebounce } from "use-debounce"
 
 type Transaction = {
     id: string
-    reference: string
     amount: string
     currency: string
     type: string
     status: string
     description: string | null
+    reference: string
     createdAt: string
     senderAccountId: string
     receiverAccountId: string
@@ -46,26 +47,20 @@ type Pagination = {
     hasPreviousPage: boolean
 }
 
-const statusColors: Record<string, string> = {
-    COMPLETED: "bg-green-500/10 text-green-500 border-green-500/20",
-    PENDING: "bg-amber-500/10 text-amber-500 border-amber-500/20",
-    FAILED: "bg-red-500/10 text-red-500 border-red-500/20",
-    REVERSED: "bg-slate-500/10 text-slate-400 border-slate-500/20",
-}
-
 export default function TransactionsPage() {
     const [transactions, setTransactions] = useState<Transaction[]>([])
-    const [accountIds, setAccountIds] = useState<string[]>([])
     const [pagination, setPagination] = useState<Pagination | null>(null)
+    const [accountIds, setAccountIds] = useState<string[]>([])
     const [isLoading, setIsLoading] = useState(true)
-    const [search, setSearch] = useState("")
-    const [type, setType] = useState("ALL")
-    const [status, setStatus] = useState("ALL")
-    const [page, setPage] = useState(1)
-
-    // ✅ useTransition — the React Compiler-safe way to 
-    // trigger async state updates
     const [, startTransition] = useTransition()
+
+    // ─── Filters ───────────────────────────────────────────────
+    const [page, setPage] = useState(1)
+    const [type, setType] = useState<string>("ALL")
+    const [status, setStatus] = useState<string>("ALL")
+    const [search, setSearch] = useState("")
+
+    const [debouncedSearch] = useDebounce(search, 500)
 
     // ✅ Load accounts + transactions together in one effect
     // State updates happen inside startTransition callback
@@ -76,75 +71,60 @@ export default function TransactionsPage() {
             page: page.toString(),
             limit: "10",
             ...(type !== "ALL" && { type }),
+            ...(status !== "ALL" && { status }),
+            ...(debouncedSearch && { query: debouncedSearch }),
         })
 
         Promise.all([
             fetch("/api/accounts").then((r) => r.json()),
             fetch(`/api/transactions?${params}`).then((r) => r.json()),
-        ]).then(([accountResult, txnResult]) => {
-            startTransition(() => {
-                if (accountResult.success) {
-                    setAccountIds(
-                        accountResult.data.map((a: { id: string }) => a.id)
-                    )
-                }
-                if (txnResult.success) {
-                    setTransactions(txnResult.data.transactions)
-                    setPagination(txnResult.data.pagination)
-                }
-                setIsLoading(false)
+        ])
+            .then(([accRes, txnRes]) => {
+                startTransition(() => {
+                    if (accRes.success) {
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        setAccountIds(accRes.data.map((a: any) => a.id))
+                    }
+                    if (txnRes.success) {
+                        setTransactions(txnRes.data.transactions)
+                        setPagination(txnRes.data.pagination)
+                    }
+                })
             })
-        }).catch((err) => {
-            console.error("[FETCH_ERROR]", err)
-            startTransition(() => setIsLoading(false))
-        })
-    }, [page, type]) // ✅ Direct deps — no useCallback needed
-
-    // ─── Client-side search + status filter ──────────────────
-    const filtered = transactions.filter((txn) => {
-        const isSender = accountIds.includes(txn.senderAccountId)
-        const counterpart = isSender
-            ? txn.receiverAccount?.user?.fullName
-            : txn.senderAccount?.user?.fullName
-
-        const matchesSearch =
-            search === "" ||
-            txn.reference.toLowerCase().includes(search.toLowerCase()) ||
-            (counterpart ?? "").toLowerCase().includes(search.toLowerCase()) ||
-            (txn.description ?? "").toLowerCase().includes(search.toLowerCase())
-
-        const matchesStatus = status === "ALL" || txn.status === status
-
-        return matchesSearch && matchesStatus
-    })
+            .catch(console.error)
+            .finally(() => startTransition(() => setIsLoading(false)))
+    }, [page, type, status, debouncedSearch])
 
     const handleClearFilters = () => {
-        setSearch("")
         setType("ALL")
         setStatus("ALL")
+        setSearch("")
         setPage(1)
     }
 
     const hasActiveFilters = search !== "" || type !== "ALL" || status !== "ALL"
 
     return (
-        <div className="space-y-8">
+        <div className="max-w-6xl mx-auto space-y-8">
             <div>
                 <h1 className="text-3xl font-bold text-white">Transactions</h1>
-                <p className="text-slate-400">Your complete transaction history</p>
+                <p className="text-slate-400">View and filter your transaction history</p>
             </div>
 
-            {/* ── Filters ──────────────────────────────────────── */}
+            {/* ── Filters Bar ───────────────────────────────────── */}
             <Card className="bg-slate-900 border-slate-800">
-                <CardContent className="pt-6">
+                <CardContent className="p-4">
                     <div className="flex flex-col sm:flex-row gap-4">
-                        <div className="flex-1 relative">
+                        <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                             <Input
-                                placeholder="Search by reference, name, description..."
+                                placeholder="Search by name, reference, or description..."
                                 value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 pl-9"
+                                onChange={(e) => {
+                                    setSearch(e.target.value)
+                                    setPage(1)
+                                }}
+                                className="pl-9 bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
                             />
                         </div>
 
@@ -242,7 +222,7 @@ export default function TransactionsPage() {
                                 />
                             ))}
                         </div>
-                    ) : filtered.length === 0 ? (
+                    ) : transactions.length === 0 ? (
                         <div className="text-center py-16 text-slate-500">
                             <ArrowUpRight className="w-10 h-10 mx-auto mb-3 opacity-30" />
                             <p className="font-medium">No transactions found</p>
@@ -254,7 +234,7 @@ export default function TransactionsPage() {
                         </div>
                     ) : (
                         <div className="space-y-1">
-                            {filtered.map((txn) => (
+                            {transactions.map((txn) => (
                                 <TransactionRow
                                     key={txn.id}
                                     txn={txn}
@@ -299,6 +279,13 @@ export default function TransactionsPage() {
 }
 
 // ─── Transaction Row ──────────────────────────────────────────
+const statusColors: Record<string, string> = {
+    PENDING: "bg-amber-500/10 text-amber-500 border-amber-500/20",
+    COMPLETED: "bg-green-500/10 text-green-500 border-green-500/20",
+    FAILED: "bg-red-500/10 text-red-500 border-red-500/20",
+    REVERSED: "bg-slate-500/10 text-slate-500 border-slate-500/20",
+}
+
 function TransactionRow({
     txn,
     accountIds,
