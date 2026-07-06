@@ -14,27 +14,27 @@ import {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-background text-card-foreground">
 
       {/* ── Navbar ─────────────────────────────────────────── */}
-      <nav className="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
+      <nav className="border-b border-border bg-background/80 backdrop-blur sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="bg-blue-600 p-1.5 rounded-lg">
-              <Building2 className="w-5 h-5 text-white" />
+              <Building2 className="w-5 h-5 text-card-foreground" />
             </div>
             <span className="text-xl font-bold">KhmerBank</span>
           </div>
           <div className="flex items-center gap-4">
             <Link
               href="/login"
-              className="text-slate-400 hover:text-white text-sm transition-colors"
+              className="text-muted-foreground hover:text-card-foreground text-sm transition-colors"
             >
               Sign In
             </Link>
             <Link
               href="/register"
-              className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+              className="bg-blue-600 hover:bg-blue-700 text-card-foreground text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
             >
               Open Account
             </Link>
@@ -57,7 +57,7 @@ export default function HomePage() {
           </span>
         </h1>
 
-        <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
           Send money instantly, download statements, and manage your
           finances — all secured with OTP verification and end-to-end
           encryption.
@@ -66,21 +66,21 @@ export default function HomePage() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/register"
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg w-full sm:w-auto justify-center"
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-card-foreground font-semibold px-8 py-4 rounded-xl transition-colors text-lg w-full sm:w-auto justify-center"
           >
             Get Started Free
             <ChevronRight className="w-5 h-5" />
           </Link>
           <Link
             href="/login"
-            className="flex items-center gap-2 border border-slate-700 hover:border-slate-600 hover:bg-slate-900 text-slate-300 font-semibold px-8 py-4 rounded-xl transition-colors text-lg w-full sm:w-auto justify-center"
+            className="flex items-center gap-2 border border-muted hover:border-muted-foreground hover:bg-card text-foreground font-semibold px-8 py-4 rounded-xl transition-colors text-lg w-full sm:w-auto justify-center"
           >
             Sign In
           </Link>
         </div>
 
         {/* Trust Indicators */}
-        <div className="flex flex-wrap items-center justify-center gap-8 mt-14 text-slate-500 text-sm">
+        <div className="flex flex-wrap items-center justify-center gap-8 mt-14 text-muted-foreground text-sm">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-green-500" />
             OTP Protected Transfers
@@ -101,13 +101,13 @@ export default function HomePage() {
       </section>
 
       {/* ── Features ───────────────────────────────────────── */}
-      <section className="border-t border-slate-800 bg-slate-900/50">
+      <section className="border-t border-border bg-muted/50">
         <div className="max-w-6xl mx-auto px-6 py-24">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Everything you need
             </h2>
-            <p className="text-slate-400 text-lg max-w-xl mx-auto">
+            <p className="text-muted-foreground text-lg max-w-xl mx-auto">
               A complete digital banking experience built for
               modern Cambodia.
             </p>
@@ -160,7 +160,7 @@ export default function HomePage() {
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Get started in minutes
           </h2>
-          <p className="text-slate-400 text-lg">
+          <p className="text-muted-foreground text-lg">
             No paperwork. No branch visits. 100% online.
           </p>
         </div>
@@ -185,13 +185,13 @@ export default function HomePage() {
       </section>
 
       {/* ── Upcoming Features ─────────────────────────────── */}
-      <section className="border-t border-slate-800 bg-slate-900/50">
+      <section className="border-t border-border bg-muted/50">
         <div className="max-w-6xl mx-auto px-6 py-24">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Coming Soon
             </h2>
-            <p className="text-slate-400 text-lg max-w-xl mx-auto">
+            <p className="text-muted-foreground text-lg max-w-xl mx-auto">
               We are constantly working to improve KhmerBank. Here is what is on the roadmap.
             </p>
           </div>
@@ -214,19 +214,19 @@ export default function HomePage() {
       </section>
 
       {/* ── CTA Banner ─────────────────────────────────────── */}
-      <section className="border-t border-slate-800">
+      <section className="border-t border-border">
         <div className="max-w-6xl mx-auto px-6 py-20 text-center">
           <div className="bg-linear-to-br from-blue-600/20 to-blue-800/20 border border-blue-500/20 rounded-2xl p-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Ready to get started?
             </h2>
-            <p className="text-slate-400 text-lg mb-8 max-w-lg mx-auto">
+            <p className="text-muted-foreground text-lg mb-8 max-w-lg mx-auto">
               Join KhmerBank today and experience digital banking
               built for Cambodia.
             </p>
             <Link
               href="/register"
-              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg"
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-card-foreground font-semibold px-8 py-4 rounded-xl transition-colors text-lg"
             >
               Open Your Account
               <ChevronRight className="w-5 h-5" />
@@ -236,17 +236,17 @@ export default function HomePage() {
       </section>
 
       {/* ── Footer ─────────────────────────────────────────── */}
-      <footer className="border-t border-slate-800">
+      <footer className="border-t border-border">
         <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 text-slate-400">
+          <div className="flex items-center gap-2 text-muted-foreground">
             <div className="bg-blue-600 p-1 rounded">
-              <Building2 className="w-4 h-4 text-white" />
+              <Building2 className="w-4 h-4 text-card-foreground" />
             </div>
-            <span className="font-semibold text-white">KhmerBank</span>
-            <span className="text-slate-600">·</span>
+            <span className="font-semibold text-card-foreground">KhmerBank</span>
+            <span className="text-muted-foreground">·</span>
             <span className="text-sm">Phnom Penh, Cambodia</span>
           </div>
-          <p className="text-slate-600 text-sm">
+          <p className="text-muted-foreground text-sm">
             © {new Date().getFullYear()} KhmerBank. All rights reserved.
           </p>
         </div>
@@ -270,12 +270,12 @@ function FeatureCard({
   description: string
 }) {
   return (
-    <div className="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl p-6 transition-colors group">
+    <div className="bg-card border border-border hover:border-muted rounded-2xl p-6 transition-colors group">
       <div className={`${iconBg} w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
         {icon}
       </div>
-      <h3 className="text-white font-semibold text-lg mb-2">{title}</h3>
-      <p className="text-slate-400 text-sm leading-relaxed">{description}</p>
+      <h3 className="text-card-foreground font-semibold text-lg mb-2">{title}</h3>
+      <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
     </div>
   )
 }
@@ -291,9 +291,9 @@ function StepCard({
 }) {
   return (
     <div className="relative text-center">
-      <div className="text-6xl font-black text-slate-800 mb-4">{number}</div>
-      <h3 className="text-white font-semibold text-xl mb-3">{title}</h3>
-      <p className="text-slate-400 leading-relaxed">{description}</p>
+      <div className="text-6xl font-black text-primary/20 mb-4">{number}</div>
+      <h3 className="text-card-foreground font-semibold text-xl mb-3">{title}</h3>
+      <p className="text-muted-foreground leading-relaxed">{description}</p>
     </div>
   )
 }
