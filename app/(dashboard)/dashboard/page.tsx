@@ -49,8 +49,8 @@ export default async function DashboardPage() {
     return (
         <div className="space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-white">Overview</h1>
-                <p className="text-slate-400">Monitor your assets and recent activity</p>
+                <h1 className="text-3xl font-bold text-card-foreground">Overview</h1>
+                <p className="text-muted-foreground">Monitor your assets and recent activity</p>
             </div>
 
             {/* Balance Cards */}
@@ -58,22 +58,22 @@ export default async function DashboardPage() {
                 {accounts.map((account) => (
                     <Card
                         key={account.id}
-                        className="bg-slate-900 border-slate-800 hover:border-blue-500/50 transition-colors"
+                        className="bg-card border-border hover:border-blue-500/50 transition-colors"
                     >
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
-                            <CardTitle className="text-sm font-medium text-slate-400">
+                            <CardTitle className="text-sm font-medium text-muted-foreground">
                                 {account.accountType} — {account.currency}
                             </CardTitle>
                             <Wallet className="w-4 h-4 text-blue-400" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold text-white">
+                            <div className="text-2xl font-bold text-card-foreground">
                                 {formatCurrency(
                                     account.balance.toString(),
                                     account.currency as "USD" | "KHR"
                                 )}
                             </div>
-                            <p className="text-xs text-slate-500 mt-1 font-mono">
+                            <p className="text-xs text-muted-foreground mt-1 font-mono">
                                 {maskAccountNumber(account.accountNumber)} <CopyButton value={account.accountNumber} className="ml-1 opacity-50 hover:opacity-100" />
                             </p>
                         </CardContent>
@@ -89,7 +89,7 @@ export default async function DashboardPage() {
                         <CreditCard className="w-4 h-4 text-blue-200" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-white">
+                        <div className="text-2xl font-bold text-card-foreground">
                             {formatCurrency(usdBalance + khrBalance / 4100)}
                         </div>
                         <p className="text-xs text-blue-200 mt-1">
@@ -104,9 +104,9 @@ export default async function DashboardPage() {
 
                 {/* ✅ Real Recent Transactions */}
                 <div className="lg:col-span-2">
-                    <Card className="bg-slate-900 border-slate-800">
+                    <Card className="bg-card border-border">
                         <CardHeader className="flex flex-row items-center justify-between">
-                            <CardTitle className="text-white">Recent Transactions</CardTitle>
+                            <CardTitle className="text-card-foreground">Recent Transactions</CardTitle>
                             <Link
                                 href="/transactions"
                                 className="text-blue-400 hover:text-blue-300 text-sm"
@@ -116,7 +116,7 @@ export default async function DashboardPage() {
                         </CardHeader>
                         <CardContent>
                             {recentTransactions.length === 0 ? (
-                                <div className="text-center py-10 text-slate-500 italic">
+                                <div className="text-center py-10 text-muted-foreground italic">
                                     No transactions yet. Make your first transfer!
                                 </div>
                             ) : (
@@ -128,7 +128,7 @@ export default async function DashboardPage() {
                                         return (
                                             <div
                                                 key={txn.id}
-                                                className="flex items-center justify-between p-3 rounded-xl hover:bg-slate-800 transition-colors"
+                                                className="flex items-center justify-between p-3 rounded-xl hover:bg-muted transition-colors"
                                             >
                                                 <div className="flex items-center gap-3">
                                                     <div
@@ -144,12 +144,12 @@ export default async function DashboardPage() {
                                                         )}
                                                     </div>
                                                     <div>
-                                                        <p className="text-white text-sm font-medium">
+                                                        <p className="text-card-foreground text-sm font-medium">
                                                             {isSender
                                                                 ? `To: ${txn.receiverAccount.user.fullName}`
                                                                 : `From: ${txn.senderAccount.user.fullName}`}
                                                         </p>
-                                                        <p className="text-slate-500 text-xs font-mono">
+                                                        <p className="text-muted-foreground text-xs font-mono">
                                                             {txn.reference}
                                                         </p>
                                                     </div>
@@ -177,25 +177,25 @@ export default async function DashboardPage() {
 
                 {/* Quick Actions */}
                 <div className="space-y-6">
-                    <Card className="bg-slate-900 border-slate-800">
+                    <Card className="bg-card border-border">
                         <CardHeader>
-                            <CardTitle className="text-white">Quick Actions</CardTitle>
+                            <CardTitle className="text-card-foreground">Quick Actions</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <Link
                                 href="/transfer"
-                                className="w-full flex items-center gap-3 p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-white group"
+                                className="w-full flex items-center gap-3 p-3 rounded-lg bg-muted hover:bg-muted-foreground transition-colors text-card-foreground group"
                             >
-                                <div className="p-2 bg-blue-500/20 rounded text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                                <div className="p-2 bg-blue-500/20 rounded text-blue-400 group-hover:bg-blue-500 group-hover:text-card-foreground transition-colors">
                                     <ArrowUpRight className="w-4 h-4" />
                                 </div>
                                 <span>Send Money</span>
                             </Link>
                             <Link
                                 href="/statements"
-                                className="w-full flex items-center gap-3 p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-white group"
+                                className="w-full flex items-center gap-3 p-3 rounded-lg bg-muted hover:bg-muted-foreground transition-colors text-card-foreground group"
                             >
-                                <div className="p-2 bg-green-500/20 rounded text-green-400 group-hover:bg-green-500 group-hover:text-white transition-colors">
+                                <div className="p-2 bg-green-500/20 rounded text-green-400 group-hover:bg-green-500 group-hover:text-card-foreground transition-colors">
                                     <ArrowDownLeft className="w-4 h-4" />
                                 </div>
                                 <span>Download Statement</span>
@@ -215,8 +215,8 @@ export default async function DashboardPage() {
 
             <div className="mt-8">
                 <div className="mb-4">
-                    <h2 className="text-xl font-bold text-white">Spending Insights</h2>
-                    <p className="text-slate-400 text-sm">Your financial activity over time</p>
+                    <h2 className="text-xl font-bold text-card-foreground">Spending Insights</h2>
+                    <p className="text-muted-foreground text-sm">Your financial activity over time</p>
                 </div>
                 <InsightsSection />
             </div>
