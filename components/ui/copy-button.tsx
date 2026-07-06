@@ -3,6 +3,11 @@
 import { useState } from "react"
 import { Check, Copy } from "lucide-react"
 import { cn } from "@/lib/utils"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface CopyButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   value: string
@@ -23,20 +28,27 @@ export function CopyButton({ value, className, ...props }: CopyButtonProps) {
   }
 
   return (
-    <button
-      onClick={copyToClipboard}
-      className={cn(
-        "relative z-10 inline-flex h-6 w-6 items-center justify-center rounded-md border bg-slate-800 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-700 hover:text-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-400 disabled:pointer-events-none disabled:opacity-50 border-slate-700",
-        className
-      )}
-      {...props}
-    >
-      <span className="sr-only">Copy</span>
-      {hasCopied ? (
-        <Check className="h-3 w-3 text-green-400" />
-      ) : (
-        <Copy className="h-3 w-3" />
-      )}
-    </button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          onClick={copyToClipboard}
+          className={cn(
+            "relative z-10 inline-flex h-6 w-6 items-center justify-center rounded-md border bg-slate-800 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-700 hover:text-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-400 disabled:pointer-events-none disabled:opacity-50 border-slate-700",
+            className
+          )}
+          {...props}
+        >
+          <span className="sr-only">Copy</span>
+          {hasCopied ? (
+            <Check className="h-3 w-3 text-green-400" />
+          ) : (
+            <Copy className="h-3 w-3" />
+          )}
+        </button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>{hasCopied ? "Copied!" : "Copy to clipboard"}</p>
+      </TooltipContent>
+    </Tooltip>
   )
 }

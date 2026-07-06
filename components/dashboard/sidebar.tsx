@@ -12,9 +12,9 @@ import {
     Settings,
     LogOut,
     Building2,
-    User
 } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const routes = [
     { label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
@@ -63,9 +63,10 @@ export function Sidebar() {
                 {/* User Profile Summary */}
                 {session?.user && (
                     <div className="flex items-center gap-3 px-3 py-2 rounded-lg bg-slate-800/50">
-                        <div className="bg-slate-700 p-2 rounded-full shrink-0">
-                            <User className="w-5 h-5 text-slate-300" />
-                        </div>
+                        <Avatar>
+                            <AvatarImage src={session.user.image ?? undefined} alt={session.user.name ?? ""} />
+                            <AvatarFallback>{session.user.name?.charAt(0) ?? "U"}</AvatarFallback>
+                        </Avatar>
                         <div className="overflow-hidden">
                             <p className="text-sm font-medium text-white truncate">
                                 {session.user.name}
