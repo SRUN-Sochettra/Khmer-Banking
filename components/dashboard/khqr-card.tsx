@@ -132,7 +132,7 @@ export function KHQRCard({ accountNumber, accountName }: KHQRCardProps) {
                             />
                         </button>
                         <div className="bg-white px-2 py-1 rounded">
-                            <div className="text-[10px] text-red-600 font-black italic tracking-wider">
+                            <div className="text-[10px] text-destructive font-black italic tracking-wider">
                                 BAKONG
                             </div>
                         </div>
@@ -145,7 +145,7 @@ export function KHQRCard({ accountNumber, accountName }: KHQRCardProps) {
                         {/* Loading overlay */}
                         {isLoading && (
                             <div className="absolute inset-0 flex items-center justify-center bg-white rounded-2xl z-10">
-                                <Loader2 className="w-8 h-8 text-red-600 animate-spin" />
+                                <Loader2 className="w-8 h-8 text-destructive animate-spin" />
                             </div>
                         )}
 
@@ -159,7 +159,7 @@ export function KHQRCard({ accountNumber, accountName }: KHQRCardProps) {
                         {/* Empty state — before first generation */}
                         {!isLoading && !qrState && (
                             <div className="w-[180px] h-[180px] flex items-center justify-center">
-                                <p className="text-xs text-gray-400 text-center">
+                                <p className="text-xs text-muted-foreground text-center">
                                     Generating...
                                 </p>
                             </div>

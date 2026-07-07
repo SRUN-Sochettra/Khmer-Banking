@@ -45,8 +45,8 @@ export function InsightsSection() {
     if (isLoading) {
         return (
             <div className="space-y-6">
-                <Skeleton className="h-80 w-full bg-slate-800" />
-                <Skeleton className="h-72 w-full bg-slate-800" />
+                <Skeleton className="h-80 w-full bg-muted" />
+                <Skeleton className="h-72 w-full bg-muted" />
             </div>
         )
     }
@@ -59,19 +59,19 @@ export function InsightsSection() {
                 <StatCard
                     label="Total Sent (6mo)"
                     value={`$${stats?.totalSentUSD.toFixed(2) ?? "0.00"}`}
-                    icon={<TrendingDown className="w-4 h-4 text-red-400" />}
+                    icon={<TrendingDown className="w-4 h-4 text-destructive" />}
                     color="red"
                 />
                 <StatCard
                     label="Total Received (6mo)"
                     value={`$${stats?.totalReceivedUSD.toFixed(2) ?? "0.00"}`}
-                    icon={<TrendingUp className="w-4 h-4 text-green-400" />}
+                    icon={<TrendingUp className="w-4 h-4 text-primary" />}
                     color="green"
                 />
                 <StatCard
                     label="This Month"
                     value={`$${stats?.thisMonthSpend.toFixed(2) ?? "0.00"}`}
-                    icon={<Activity className="w-4 h-4 text-blue-400" />}
+                    icon={<Activity className="w-4 h-4 text-primary" />}
                     color="blue"
                     subtext={
                         stats?.spendingChange != null
@@ -89,7 +89,7 @@ export function InsightsSection() {
                 <StatCard
                     label="Total Transactions"
                     value={`${stats?.totalTransactions ?? 0}`}
-                    icon={<Minus className="w-4 h-4 text-purple-400" />}
+                    icon={<Minus className="w-4 h-4 text-primary" />}
                     color="purple"
                     subtext="Last 6 months"
                     subtextColor="slate"
@@ -98,15 +98,15 @@ export function InsightsSection() {
 
             {/* ── Currency Toggle ─────────────────────────────── */}
             <div className="flex items-center gap-2">
-                <span className="text-slate-400 text-sm">View in:</span>
+                <span className="text-muted-foreground text-sm">View in:</span>
                 {(["USD", "KHR"] as const).map((cur) => (
                     <button
                         key={cur}
                         onClick={() => setCurrency(cur)}
                         className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                             currency === cur
-                                ? "bg-blue-600 text-white"
-                                : "bg-slate-800 text-slate-400 hover:text-white"
+                                ? "bg-primary text-primary-foreground"
+                                : "bg-muted text-muted-foreground hover:text-foreground"
                         }`}
                     >
                         {cur}
@@ -143,26 +143,26 @@ function StatCard({
     subtextColor?: "red" | "green" | "slate"
 }) {
     const bgColors = {
-        red: "bg-red-500/10",
-        green: "bg-green-500/10",
-        blue: "bg-blue-500/10",
-        purple: "bg-purple-500/10",
+        red: "bg-destructive/10",
+        green: "bg-primary/10",
+        blue: "bg-primary/10",
+        purple: "bg-primary/10",
     }
 
     const textColors = {
-        red: "text-red-400",
-        green: "text-green-400",
-        slate: "text-slate-500",
+        red: "text-destructive",
+        green: "text-primary",
+        slate: "text-muted-foreground",
     }
 
     return (
-        <Card className="bg-slate-900 border-slate-800">
+        <Card className="bg-card border-border">
             <CardContent className="pt-5 pb-5">
                 <div className={`w-8 h-8 ${bgColors[color]} rounded-lg flex items-center justify-center mb-3`}>
                     {icon}
                 </div>
-                <p className="text-slate-400 text-xs mb-1">{label}</p>
-                <p className="text-white font-bold text-xl">{value}</p>
+                <p className="text-muted-foreground text-xs mb-1">{label}</p>
+                <p className="text-foreground font-bold text-xl">{value}</p>
                 {subtext && (
                     <p className={`text-xs mt-1 ${textColors[subtextColor]}`}>
                         {subtext}

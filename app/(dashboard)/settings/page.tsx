@@ -51,54 +51,54 @@ export default async function SettingsPage() {
     return (
         <div className="max-w-3xl mx-auto space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-white">Settings</h1>
-                <p className="text-slate-400">
+                <h1 className="text-3xl font-bold text-foreground">Settings</h1>
+                <p className="text-muted-foreground">
                     Manage your account details and preferences
                 </p>
             </div>
 
             {/* ── Profile Info ──────────────────────────────────── */}
-            <Card className="bg-slate-900 border-slate-800">
+            <Card className="bg-card border-border">
                 <CardHeader>
-                    <CardTitle className="text-white flex items-center gap-2">
-                        <User className="w-5 h-5 text-blue-400" />
+                    <CardTitle className="text-foreground flex items-center gap-2">
+                        <User className="w-5 h-5 text-primary" />
                         Profile Information
                     </CardTitle>
-                    <CardDescription className="text-slate-400">
+                    <CardDescription className="text-muted-foreground">
                         Your personal account details
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
 
                     <InfoRow
-                        icon={<User className="w-4 h-4 text-slate-400" />}
+                        icon={<User className="w-4 h-4 text-muted-foreground" />}
                         label="Full Name"
                         value={user.fullName}
                     />
                     <InfoRow
-                        icon={<Mail className="w-4 h-4 text-slate-400" />}
+                        icon={<Mail className="w-4 h-4 text-muted-foreground" />}
                         label="Email Address"
                         value={user.email}
                         badge={
                             user.isVerified ? (
-                                <span className="flex items-center gap-1 text-green-400 text-xs">
+                                <span className="flex items-center gap-1 text-primary text-xs">
                                     <CheckCircle2 className="w-3 h-3" />
                                     Verified
                                 </span>
                             ) : (
-                                <span className="text-amber-400 text-xs">
+                                <span className="text-accent text-xs">
                                     Unverified
                                 </span>
                             )
                         }
                     />
                     <InfoRow
-                        icon={<Phone className="w-4 h-4 text-slate-400" />}
+                        icon={<Phone className="w-4 h-4 text-muted-foreground" />}
                         label="Phone Number"
                         value={user.phone}
                     />
                     <InfoRow
-                        icon={<CreditCard className="w-4 h-4 text-slate-400" />}
+                        icon={<CreditCard className="w-4 h-4 text-muted-foreground" />}
                         label="Member Since"
                         value={formatDate(user.createdAt)}
                     />
@@ -107,13 +107,13 @@ export default async function SettingsPage() {
             </Card>
 
             {/* ── Security Settings ─────────────────────────────── */}
-            <Card className="bg-slate-900 border-slate-800">
+            <Card className="bg-card border-border">
                 <CardHeader>
-                    <CardTitle className="text-white flex items-center gap-2">
-                        <Shield className="w-5 h-5 text-green-400" />
+                    <CardTitle className="text-foreground flex items-center gap-2">
+                        <Shield className="w-5 h-5 text-primary" />
                         Security
                     </CardTitle>
-                    <CardDescription className="text-slate-400">
+                    <CardDescription className="text-muted-foreground">
                         Manage your account security preferences
                     </CardDescription>
                 </CardHeader>
@@ -131,23 +131,23 @@ export default async function SettingsPage() {
                     />
 
                     {/* Change Password — navigates to security page */}
-                    <div className="flex items-center justify-between p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                    <div className="flex items-center justify-between p-4 bg-muted/50 rounded-xl border border-input/50">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-slate-700 rounded-lg">
-                                <Shield className="w-4 h-4 text-slate-300" />
+                            <div className="p-2 bg-muted rounded-lg">
+                                <Shield className="w-4 h-4 text-foreground" />
                             </div>
                             <div>
-                                <p className="text-white text-sm font-medium">
+                                <p className="text-foreground text-sm font-medium">
                                     Password
                                 </p>
-                                <p className="text-slate-500 text-xs">
+                                <p className="text-muted-foreground text-xs">
                                     Last changed: unknown
                                 </p>
                             </div>
                         </div>
                         <Link
                             href="/security"
-                            className="flex items-center gap-1 text-blue-400 hover:text-blue-300 text-xs font-medium transition-colors"
+                            className="flex items-center gap-1 text-primary hover:text-primary/80 text-xs font-medium transition-colors"
                         >
                             Change
                             <ChevronRight className="w-3 h-3" />
@@ -158,13 +158,13 @@ export default async function SettingsPage() {
             </Card>
 
             {/* ── Linked Accounts ───────────────────────────────── */}
-            <Card className="bg-slate-900 border-slate-800">
+            <Card className="bg-card border-border">
                 <CardHeader>
-                    <CardTitle className="text-white flex items-center gap-2">
-                        <CreditCard className="w-5 h-5 text-purple-400" />
+                    <CardTitle className="text-foreground flex items-center gap-2">
+                        <CreditCard className="w-5 h-5 text-primary" />
                         Linked Accounts
                     </CardTitle>
-                    <CardDescription className="text-slate-400">
+                    <CardDescription className="text-muted-foreground">
                         Your active bank accounts
                     </CardDescription>
                 </CardHeader>
@@ -172,20 +172,20 @@ export default async function SettingsPage() {
                     {user.accounts.map((account) => (
                         <div
                             key={account.id}
-                            className="flex items-center justify-between p-4 bg-slate-800/50 rounded-xl border border-slate-700/50"
+                            className="flex items-center justify-between p-4 bg-muted/50 rounded-xl border border-input/50"
                         >
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-blue-500/10 rounded-lg">
-                                    <CreditCard className="w-4 h-4 text-blue-400" />
+                                <div className="p-2 bg-primary/10 rounded-lg">
+                                    <CreditCard className="w-4 h-4 text-primary" />
                                 </div>
                                 <div>
-                                    <p className="text-white text-sm font-medium">
+                                    <p className="text-foreground text-sm font-medium">
                                         {account.accountType} ·{" "}
-                                        <span className="text-slate-400">
+                                        <span className="text-muted-foreground">
                                             {account.currency}
                                         </span>
                                     </p>
-                                    <p className="text-slate-500 text-xs font-mono">
+                                    <p className="text-muted-foreground text-xs font-mono">
                                         {maskAccountNumber(account.accountNumber)} <CopyButton value={account.accountNumber} className="ml-1 opacity-50 hover:opacity-100" />
                                     </p>
                                 </div>
@@ -193,8 +193,8 @@ export default async function SettingsPage() {
                             <span
                                 className={`text-xs font-semibold px-2 py-1 rounded-full border ${
                                     account.isActive
-                                        ? "bg-green-500/10 text-green-400 border-green-500/20"
-                                        : "bg-red-500/10 text-red-400 border-red-500/20"
+                                        ? "bg-primary/10 text-primary border-border"
+                                        : "bg-destructive/10 text-destructive border-border"
                                 }`}
                             >
                                 {account.isActive ? "Active" : "Inactive"}
@@ -205,13 +205,13 @@ export default async function SettingsPage() {
             </Card>
 
             {/* ── Notifications ─────────────────────────────────── */}
-            <Card className="bg-slate-900 border-slate-800">
+            <Card className="bg-card border-border">
                 <CardHeader>
-                    <CardTitle className="text-white flex items-center gap-2">
-                        <Bell className="w-5 h-5 text-amber-400" />
+                    <CardTitle className="text-foreground flex items-center gap-2">
+                        <Bell className="w-5 h-5 text-accent" />
                         Notifications
                     </CardTitle>
-                    <CardDescription className="text-slate-400">
+                    <CardDescription className="text-muted-foreground">
                         How we contact you
                     </CardDescription>
                 </CardHeader>
@@ -234,21 +234,21 @@ export default async function SettingsPage() {
                 </CardContent>
             </Card>
 
-            <Card className="bg-slate-900 border-slate-800">
+            <Card className="bg-card border-border">
                 <CardHeader>
-                    <CardTitle className="text-white flex items-center gap-2">
+                    <CardTitle className="text-foreground flex items-center gap-2">
                         Theme Settings
                     </CardTitle>
-                    <CardDescription className="text-slate-400">
+                    <CardDescription className="text-muted-foreground">
                         Manage your application theme
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                    <div className="flex items-center justify-between p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                    <div className="flex items-center justify-between p-4 bg-muted/50 rounded-xl border border-input/50">
                         <div className="flex items-center gap-3">
                             <div>
-                                <p className="text-white text-sm font-medium">Dark Mode</p>
-                                <p className="text-slate-500 text-xs">Toggle application theme</p>
+                                <p className="text-foreground text-sm font-medium">Dark Mode</p>
+                                <p className="text-muted-foreground text-xs">Toggle application theme</p>
                             </div>
                         </div>
                         <ThemeToggle />
@@ -274,12 +274,12 @@ function InfoRow({
     badge?: React.ReactNode
 }) {
     return (
-        <div className="flex items-center justify-between p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+        <div className="flex items-center justify-between p-4 bg-muted/50 rounded-xl border border-input/50">
             <div className="flex items-center gap-3">
-                <div className="p-2 bg-slate-700 rounded-lg">{icon}</div>
+                <div className="p-2 bg-muted rounded-lg">{icon}</div>
                 <div>
-                    <p className="text-slate-400 text-xs">{label}</p>
-                    <p className="text-white text-sm font-medium">{value}</p>
+                    <p className="text-muted-foreground text-xs">{label}</p>
+                    <p className="text-foreground text-sm font-medium">{value}</p>
                 </div>
             </div>
             {badge && <div>{badge}</div>}
@@ -297,29 +297,29 @@ function SecurityRow({
     enabled: boolean
 }) {
     return (
-        <div className="flex items-center justify-between p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+        <div className="flex items-center justify-between p-4 bg-muted/50 rounded-xl border border-input/50">
             <div className="flex items-center gap-3">
                 <div
                     className={`p-2 rounded-lg ${
-                        enabled ? "bg-green-500/10" : "bg-slate-700"
+                        enabled ? "bg-primary/10" : "bg-muted"
                     }`}
                 >
                     <Shield
                         className={`w-4 h-4 ${
-                            enabled ? "text-green-400" : "text-slate-500"
+                            enabled ? "text-primary" : "text-muted-foreground"
                         }`}
                     />
                 </div>
                 <div>
-                    <p className="text-white text-sm font-medium">{label}</p>
-                    <p className="text-slate-500 text-xs">{description}</p>
+                    <p className="text-foreground text-sm font-medium">{label}</p>
+                    <p className="text-muted-foreground text-xs">{description}</p>
                 </div>
             </div>
             <span
                 className={`text-xs font-semibold px-2 py-1 rounded-full border ${
                     enabled
-                        ? "bg-green-500/10 text-green-400 border-green-500/20"
-                        : "bg-slate-700 text-slate-500 border-slate-600"
+                        ? "bg-primary/10 text-primary border-border"
+                        : "bg-muted text-muted-foreground border-input"
                 }`}
             >
                 {enabled ? "On" : "Off"}

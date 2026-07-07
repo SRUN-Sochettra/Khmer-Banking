@@ -66,16 +66,16 @@ export default function LoginPage() {
 
                 {/* Logo */}
                 <div className="flex items-center justify-center gap-2 mb-8">
-                    <div className="bg-blue-500 p-2 rounded-lg">
-                        <Building2 className="w-6 h-6 text-white" />
+                    <div className="bg-primary p-2 rounded-lg">
+                        <Building2 className="w-6 h-6 text-primary-foreground" />
                     </div>
-                    <span className="text-white text-2xl font-bold">KhmerBank</span>
+                    <span className="text-primary-foreground text-2xl font-bold">KhmerBank</span>
                 </div>
 
-                <Card className="border-slate-700 bg-slate-800/50 backdrop-blur">
+                <Card className="border-input bg-muted/50 backdrop-blur">
                     <CardHeader className="space-y-1">
-                        <CardTitle className="text-2xl text-white">Welcome back</CardTitle>
-                        <CardDescription className="text-slate-400">
+                        <CardTitle className="text-2xl text-foreground">Welcome back</CardTitle>
+                        <CardDescription className="text-muted-foreground">
                             Sign in to access your account
                         </CardDescription>
                     </CardHeader>
@@ -84,29 +84,29 @@ export default function LoginPage() {
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
                             <div className="space-y-2">
-                                <Label htmlFor="email" className="text-slate-200">
+                                <Label htmlFor="email" className="text-foreground">
                                     Email Address
                                 </Label>
                                 <Input
                                     id="email"
                                     type="email"
                                     placeholder="sokha@example.com"
-                                    className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+                                    className="bg-muted border-input text-foreground placeholder:text-muted-foreground"
                                     {...register("email")}
                                 />
                                 {errors.email && (
-                                    <p className="text-red-400 text-sm">{errors.email.message}</p>
+                                    <p className="text-destructive text-sm">{errors.email.message}</p>
                                 )}
                             </div>
 
                             <div className="space-y-2">
                                 <div className="flex items-center justify-between">
-                                    <Label htmlFor="password" className="text-slate-200">
+                                    <Label htmlFor="password" className="text-foreground">
                                         Password
                                     </Label>
                                     <Link
                                         href="/forget-password"
-                                        className="text-blue-400 hover:text-blue-300 text-sm"
+                                        className="text-primary hover:text-primary/80 text-sm"
                                     >
                                         Forgot password?
                                     </Link>
@@ -116,13 +116,13 @@ export default function LoginPage() {
                                         id="password"
                                         type={showPassword ? "text" : "password"}
                                         placeholder="Enter your password"
-                                        className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 pr-10"
+                                        className="bg-muted border-input text-foreground placeholder:text-muted-foreground pr-10"
                                         {...register("password")}
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                                     >
                                         {showPassword
                                             ? <EyeOff className="w-4 h-4" />
@@ -131,14 +131,14 @@ export default function LoginPage() {
                                     </button>
                                 </div>
                                 {errors.password && (
-                                    <p className="text-red-400 text-sm">{errors.password.message}</p>
+                                    <p className="text-destructive text-sm">{errors.password.message}</p>
                                 )}
                             </div>
 
                             <Button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+                                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
                             >
                                 {isLoading ? (
                                     <>
@@ -154,16 +154,16 @@ export default function LoginPage() {
                     </CardContent>
 
                     <CardFooter className="flex flex-col gap-4">
-                        <p className="text-slate-400 text-sm text-center w-full">
+                        <p className="text-muted-foreground text-sm text-center w-full">
                             Don&apos;t have an account?{" "}
-                            <Link href="/register" className="text-blue-400 hover:text-blue-300 font-medium">
+                            <Link href="/register" className="text-primary hover:text-primary/80 font-medium">
                                 Create one
                             </Link>
                         </p>
 
                         {/* Security Badge */}
-                        <div className="flex items-center gap-2 text-slate-500 text-xs">
-                            <ShieldCheck className="w-4 h-4 text-green-500" />
+                        <div className="flex items-center gap-2 text-muted-foreground text-xs">
+                            <ShieldCheck className="w-4 h-4 text-primary" />
                             <span>256-bit SSL encrypted. Your data is secure.</span>
                         </div>
                     </CardFooter>

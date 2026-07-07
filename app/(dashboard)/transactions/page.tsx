@@ -107,16 +107,16 @@ export default function TransactionsPage() {
     return (
         <div className="max-w-6xl mx-auto space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-white">Transactions</h1>
-                <p className="text-slate-400">View and filter your transaction history</p>
+                <h1 className="text-3xl font-bold text-foreground">Transactions</h1>
+                <p className="text-muted-foreground">View and filter your transaction history</p>
             </div>
 
             {/* ── Filters Bar ───────────────────────────────────── */}
-            <Card className="bg-slate-900 border-slate-800">
+            <Card className="bg-card border-border">
                 <CardContent className="p-4">
                     <div className="flex flex-col sm:flex-row gap-4">
                         <div className="relative flex-1">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                             <Input
                                 placeholder="Search by name, reference, or description..."
                                 value={search}
@@ -124,7 +124,7 @@ export default function TransactionsPage() {
                                     setSearch(e.target.value)
                                     setPage(1)
                                 }}
-                                className="pl-9 bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
+                                className="pl-9 bg-muted border-input text-foreground placeholder:text-muted-foreground"
                             />
                         </div>
 
@@ -136,21 +136,21 @@ export default function TransactionsPage() {
                                     setPage(1)
                                 }}
                             >
-                                <SelectTrigger className="bg-slate-800 border-slate-700 text-white">
-                                    <Filter className="w-4 h-4 mr-2 text-slate-400" />
+                                <SelectTrigger className="bg-muted border-input text-foreground">
+                                    <Filter className="w-4 h-4 mr-2 text-muted-foreground" />
                                     <SelectValue placeholder="Type" />
                                 </SelectTrigger>
-                                <SelectContent className="bg-slate-800 border-slate-700">
-                                    <SelectItem value="ALL" className="text-white">
+                                <SelectContent className="bg-muted border-input">
+                                    <SelectItem value="ALL" className="text-foreground">
                                         All Types
                                     </SelectItem>
-                                    <SelectItem value="TRANSFER" className="text-white">
+                                    <SelectItem value="TRANSFER" className="text-foreground">
                                         Transfer
                                     </SelectItem>
-                                    <SelectItem value="DEPOSIT" className="text-white">
+                                    <SelectItem value="DEPOSIT" className="text-foreground">
                                         Deposit
                                     </SelectItem>
-                                    <SelectItem value="WITHDRAWAL" className="text-white">
+                                    <SelectItem value="WITHDRAWAL" className="text-foreground">
                                         Withdrawal
                                     </SelectItem>
                                 </SelectContent>
@@ -165,23 +165,23 @@ export default function TransactionsPage() {
                                     setPage(1)
                                 }}
                             >
-                                <SelectTrigger className="bg-slate-800 border-slate-700 text-white">
+                                <SelectTrigger className="bg-muted border-input text-foreground">
                                     <SelectValue placeholder="Status" />
                                 </SelectTrigger>
-                                <SelectContent className="bg-slate-800 border-slate-700">
-                                    <SelectItem value="ALL" className="text-white">
+                                <SelectContent className="bg-muted border-input">
+                                    <SelectItem value="ALL" className="text-foreground">
                                         All Status
                                     </SelectItem>
-                                    <SelectItem value="COMPLETED" className="text-white">
+                                    <SelectItem value="COMPLETED" className="text-foreground">
                                         Completed
                                     </SelectItem>
-                                    <SelectItem value="PENDING" className="text-white">
+                                    <SelectItem value="PENDING" className="text-foreground">
                                         Pending
                                     </SelectItem>
-                                    <SelectItem value="FAILED" className="text-white">
+                                    <SelectItem value="FAILED" className="text-foreground">
                                         Failed
                                     </SelectItem>
-                                    <SelectItem value="REVERSED" className="text-white">
+                                    <SelectItem value="REVERSED" className="text-foreground">
                                         Reversed
                                     </SelectItem>
                                 </SelectContent>
@@ -192,7 +192,7 @@ export default function TransactionsPage() {
                             <Button
                                 variant="outline"
                                 onClick={handleClearFilters}
-                                className="border-slate-700 text-slate-400 hover:text-white hover:bg-slate-800 shrink-0"
+                                className="border-input text-muted-foreground hover:text-foreground hover:bg-muted shrink-0"
                             >
                                 <X className="w-4 h-4 mr-2" />
                                 Clear
@@ -203,10 +203,10 @@ export default function TransactionsPage() {
             </Card>
 
             {/* ── Transaction List ──────────────────────────────── */}
-            <Card className="bg-slate-900 border-slate-800">
+            <Card className="bg-card border-border">
                 <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle className="text-white">All Transactions</CardTitle>
-                    <span className="text-slate-500 text-sm">
+                    <CardTitle className="text-foreground">All Transactions</CardTitle>
+                    <span className="text-muted-foreground text-sm">
                         {isLoading
                             ? "Loading..."
                             : `${pagination?.total ?? 0} records`}
@@ -218,12 +218,12 @@ export default function TransactionsPage() {
                             {Array.from({ length: 5 }).map((_, i) => (
                                 <Skeleton
                                     key={i}
-                                    className="h-16 w-full bg-slate-800"
+                                    className="h-16 w-full bg-muted"
                                 />
                             ))}
                         </div>
                     ) : transactions.length === 0 ? (
-                        <div className="text-center py-16 text-slate-500">
+                        <div className="text-center py-16 text-muted-foreground">
                             <ArrowUpRight className="w-10 h-10 mx-auto mb-3 opacity-30" />
                             <p className="font-medium">No transactions found</p>
                             <p className="text-sm mt-1">
@@ -246,8 +246,8 @@ export default function TransactionsPage() {
 
                     {/* ── Pagination ─────────────────────────────── */}
                     {pagination && pagination.totalPages > 1 && (
-                        <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
-                            <p className="text-slate-500 text-sm">
+                        <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
+                            <p className="text-muted-foreground text-sm">
                                 Page {pagination.page} of {pagination.totalPages}
                             </p>
                             <div className="flex gap-2">
@@ -256,7 +256,7 @@ export default function TransactionsPage() {
                                     size="sm"
                                     disabled={!pagination.hasPreviousPage || isLoading}
                                     onClick={() => setPage((p) => p - 1)}
-                                    className="border-slate-700 text-slate-300 hover:bg-slate-800"
+                                    className="border-input text-foreground hover:bg-muted"
                                 >
                                     Previous
                                 </Button>
@@ -265,7 +265,7 @@ export default function TransactionsPage() {
                                     size="sm"
                                     disabled={!pagination.hasNextPage || isLoading}
                                     onClick={() => setPage((p) => p + 1)}
-                                    className="border-slate-700 text-slate-300 hover:bg-slate-800"
+                                    className="border-input text-foreground hover:bg-muted"
                                 >
                                     Next
                                 </Button>
@@ -280,10 +280,10 @@ export default function TransactionsPage() {
 
 // ─── Transaction Row ──────────────────────────────────────────
 const statusColors: Record<string, string> = {
-    PENDING: "bg-amber-500/10 text-amber-500 border-amber-500/20",
-    COMPLETED: "bg-green-500/10 text-green-500 border-green-500/20",
-    FAILED: "bg-red-500/10 text-red-500 border-red-500/20",
-    REVERSED: "bg-slate-500/10 text-slate-500 border-slate-500/20",
+    PENDING: "bg-accent/10 text-accent border-border",
+    COMPLETED: "bg-primary/10 text-primary border-border",
+    FAILED: "bg-destructive/10 text-destructive border-border",
+    REVERSED: "bg-muted text-muted-foreground border-border",
 }
 
 function TransactionRow({
@@ -296,12 +296,12 @@ function TransactionRow({
     const isSender = accountIds.includes(txn.senderAccountId)
 
     return (
-        <div className="flex items-center justify-between p-4 rounded-xl hover:bg-slate-800 transition-colors">
+        <div className="flex items-center justify-between p-4 rounded-xl hover:bg-muted transition-colors">
             <div className="flex items-center gap-4">
                 <div className={`p-2.5 rounded-full ${
                     isSender
-                        ? "bg-red-500/10 text-red-400"
-                        : "bg-green-500/10 text-green-400"
+                        ? "bg-destructive/10 text-destructive"
+                        : "bg-primary/10 text-primary"
                 }`}>
                     {isSender
                         ? <ArrowUpRight className="w-5 h-5" />
@@ -309,27 +309,27 @@ function TransactionRow({
                     }
                 </div>
                 <div>
-                    <p className="text-white font-medium">
+                    <p className="text-foreground font-medium">
                         {isSender
                             ? `To: ${txn.receiverAccount?.user?.fullName}`
                             : `From: ${txn.senderAccount?.user?.fullName}`}
                     </p>
                     {txn.description && (
-                        <p className="text-slate-400 text-xs mt-0.5">
+                        <p className="text-muted-foreground text-xs mt-0.5">
                             {txn.description}
                         </p>
                     )}
-                    <p className="text-slate-500 text-xs mt-0.5 font-mono">
+                    <p className="text-muted-foreground text-xs mt-0.5 font-mono">
                         {txn.reference}
                     </p>
-                    <p className="text-slate-600 text-xs">
+                    <p className="text-muted-foreground text-xs">
                         {formatDate(txn.createdAt)}
                     </p>
                 </div>
             </div>
             <div className="text-right">
                 <p className={`font-bold text-lg ${
-                    isSender ? "text-red-400" : "text-green-400"
+                    isSender ? "text-destructive" : "text-primary"
                 }`}>
                     {isSender ? "-" : "+"}
                     {formatCurrency(

@@ -153,23 +153,23 @@ export default function VerifyOtpPage() {
 
                 {/* Logo */}
                 <div className="flex items-center justify-center gap-2 mb-8">
-                    <div className="bg-blue-500 p-2 rounded-lg">
-                        <Building2 className="w-6 h-6 text-white" />
+                    <div className="bg-primary p-2 rounded-lg">
+                        <Building2 className="w-6 h-6 text-primary-foreground" />
                     </div>
-                    <span className="text-white text-2xl font-bold">KhmerBank</span>
+                    <span className="text-primary-foreground text-2xl font-bold">KhmerBank</span>
                 </div>
 
-                <Card className="border-slate-700 bg-slate-800/50 backdrop-blur">
+                <Card className="border-input bg-muted/50 backdrop-blur">
                     <CardHeader className="space-y-1 text-center">
                         <div className="flex justify-center mb-2">
-                            <div className="bg-blue-500/20 p-4 rounded-full">
-                                <MailCheck className="w-8 h-8 text-blue-400" />
+                            <div className="bg-primary/20 p-4 rounded-full">
+                                <MailCheck className="w-8 h-8 text-primary" />
                             </div>
                         </div>
-                        <CardTitle className="text-2xl text-white">Check your email</CardTitle>
-                        <CardDescription className="text-slate-400">
+                        <CardTitle className="text-2xl text-foreground">Check your email</CardTitle>
+                        <CardDescription className="text-muted-foreground">
                             We sent a 6-digit code to{" "}
-                            <span className="text-blue-400 font-medium">
+                            <span className="text-primary font-medium">
                                 {email || "your email"}
                             </span>
                         </CardDescription>
@@ -190,7 +190,7 @@ export default function VerifyOtpPage() {
                                     onChange={(e) => handleChange(index, e.target.value)}
                                     onKeyDown={(e) => handleKeyDown(index, e)}
                                     onPaste={handlePaste}
-                                    className="w-12 h-14 text-center text-2xl font-bold rounded-lg bg-slate-700 border-2 border-slate-600 text-white focus:border-blue-500 focus:outline-none transition-colors"
+                                    className="w-12 h-14 text-center text-2xl font-bold rounded-lg bg-muted border-2 border-input text-foreground focus:border-blue-500 focus:outline-none transition-colors"
                                 />
                             ))}
                         </div>
@@ -199,7 +199,7 @@ export default function VerifyOtpPage() {
                         <Button
                             onClick={handleSubmit}
                             disabled={isLoading || otp.join("").length !== 6}
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+                            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
                         >
                             {isLoading ? (
                                 <>
@@ -217,14 +217,14 @@ export default function VerifyOtpPage() {
                                 <button
                                     onClick={handleResend}
                                     disabled={isResending}
-                                    className="text-blue-400 hover:text-blue-300 text-sm font-medium"
+                                    className="text-primary hover:text-primary/80 text-sm font-medium"
                                 >
                                     {isResending ? "Sending..." : "Resend code"}
                                 </button>
                             ) : (
-                                <p className="text-slate-400 text-sm">
+                                <p className="text-muted-foreground text-sm">
                                     Resend code in{" "}
-                                    <span className="text-blue-400 font-medium">{countdown}s</span>
+                                    <span className="text-primary font-medium">{countdown}s</span>
                                 </p>
                             )}
                         </div>
