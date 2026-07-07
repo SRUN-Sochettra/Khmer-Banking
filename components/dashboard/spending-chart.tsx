@@ -88,12 +88,12 @@ export function SpendingFlowChart({
     const totalReceived = data.reduce((s, d) => s + d.received, 0)
 
     return (
-        <Card className="bg-slate-900 border-slate-800">
+        <Card className="bg-card border-border">
             <CardHeader>
                 <div className="flex items-center justify-between">
-                    <CardTitle className="text-white">
+                    <CardTitle className="text-foreground">
                         6-Month Cash Flow
-                        <span className="ml-2 text-sm text-slate-400 font-normal">
+                        <span className="ml-2 text-sm text-muted-foreground font-normal">
                             ({currency})
                         </span>
                     </CardTitle>
@@ -101,29 +101,29 @@ export function SpendingFlowChart({
 
                 <div className="flex gap-6 pt-2">
                     <div className="flex items-center gap-2">
-                        <TrendingUp className="w-4 h-4 text-green-400" />
+                        <TrendingUp className="w-4 h-4 text-primary" />
                         <div>
-                            <p className="text-slate-500 text-xs">Total In</p>
-                            <p className="text-green-400 font-bold text-sm">
+                            <p className="text-muted-foreground text-xs">Total In</p>
+                            <p className="text-primary font-bold text-sm">
                                 {formatValue(totalReceived)}
                             </p>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
-                        <TrendingDown className="w-4 h-4 text-red-400" />
+                        <TrendingDown className="w-4 h-4 text-destructive" />
                         <div>
-                            <p className="text-slate-500 text-xs">Total Out</p>
-                            <p className="text-red-400 font-bold text-sm">
+                            <p className="text-muted-foreground text-xs">Total Out</p>
+                            <p className="text-destructive font-bold text-sm">
                                 {formatValue(totalSent)}
                             </p>
                         </div>
                     </div>
                     <div>
-                        <p className="text-slate-500 text-xs">Net</p>
+                        <p className="text-muted-foreground text-xs">Net</p>
                         <p className={`font-bold text-sm ${
                             totalReceived - totalSent >= 0
-                                ? "text-blue-400"
-                                : "text-amber-400"
+                                ? "text-primary"
+                                : "text-accent"
                         }`}>
                             {formatValue(totalReceived - totalSent)}
                         </p>
@@ -275,11 +275,11 @@ export function MonthlyBreakdownChart({
     const max = Math.max(...data.map((d) => d.amount), 1)
 
     return (
-        <Card className="bg-slate-900 border-slate-800">
+        <Card className="bg-card border-border">
             <CardHeader>
-                <CardTitle className="text-white">
+                <CardTitle className="text-foreground">
                     14-Day Spending
-                    <span className="ml-2 text-sm text-slate-400 font-normal">
+                    <span className="ml-2 text-sm text-muted-foreground font-normal">
                         ({currency})
                     </span>
                 </CardTitle>

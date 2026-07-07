@@ -64,7 +64,7 @@ export default async function DashboardPage() {
                             <CardTitle className="text-sm font-medium text-muted-foreground">
                                 {account.accountType} — {account.currency}
                             </CardTitle>
-                            <Wallet className="w-4 h-4 text-blue-400" />
+                            <Wallet className="w-4 h-4 text-primary" />
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold text-card-foreground">
@@ -83,16 +83,16 @@ export default async function DashboardPage() {
                 {/* Total Assets */}
                 <Card className="bg-gradient-to-br from-blue-600 to-blue-800 border-none">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium text-blue-100">
+                        <CardTitle className="text-sm font-medium text-white">
                             Total Assets (USD)
                         </CardTitle>
-                        <CreditCard className="w-4 h-4 text-blue-200" />
+                        <CreditCard className="w-4 h-4 text-white" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold text-card-foreground">
                             {formatCurrency(usdBalance + khrBalance / 4100)}
                         </div>
-                        <p className="text-xs text-blue-200 mt-1">
+                        <p className="text-xs text-white mt-1">
                             Approx. based on 1 USD = 4,100 KHR
                         </p>
                     </CardContent>
@@ -109,7 +109,7 @@ export default async function DashboardPage() {
                             <CardTitle className="text-card-foreground">Recent Transactions</CardTitle>
                             <Link
                                 href="/transactions"
-                                className="text-blue-400 hover:text-blue-300 text-sm"
+                                className="text-primary hover:text-primary/80 text-sm"
                             >
                                 View all →
                             </Link>
@@ -133,8 +133,8 @@ export default async function DashboardPage() {
                                                 <div className="flex items-center gap-3">
                                                     <div
                                                         className={`p-2 rounded-full ${isSender
-                                                                ? "bg-red-500/10 text-red-400"
-                                                                : "bg-green-500/10 text-green-400"
+                                                                ? "bg-destructive/10 text-destructive"
+                                                                : "bg-primary/10 text-primary"
                                                             }`}
                                                     >
                                                         {isSender ? (
@@ -156,8 +156,8 @@ export default async function DashboardPage() {
                                                 </div>
                                                 <p
                                                     className={`font-bold ${isSender
-                                                            ? "text-red-400"
-                                                            : "text-green-400"
+                                                            ? "text-destructive"
+                                                            : "text-primary"
                                                         }`}
                                                 >
                                                     {isSender ? "-" : "+"}
@@ -186,7 +186,7 @@ export default async function DashboardPage() {
                                 href="/transfer"
                                 className="w-full flex items-center gap-3 p-3 rounded-lg bg-muted hover:bg-muted-foreground transition-colors text-card-foreground group"
                             >
-                                <div className="p-2 bg-blue-500/20 rounded text-blue-400 group-hover:bg-blue-500 group-hover:text-card-foreground transition-colors">
+                                <div className="p-2 bg-primary/20 rounded text-primary group-hover:bg-primary group-hover:text-card-foreground transition-colors">
                                     <ArrowUpRight className="w-4 h-4" />
                                 </div>
                                 <span>Send Money</span>
@@ -195,7 +195,7 @@ export default async function DashboardPage() {
                                 href="/statements"
                                 className="w-full flex items-center gap-3 p-3 rounded-lg bg-muted hover:bg-muted-foreground transition-colors text-card-foreground group"
                             >
-                                <div className="p-2 bg-green-500/20 rounded text-green-400 group-hover:bg-green-500 group-hover:text-card-foreground transition-colors">
+                                <div className="p-2 bg-primary/20 rounded text-primary group-hover:bg-primary group-hover:text-card-foreground transition-colors">
                                     <ArrowDownLeft className="w-4 h-4" />
                                 </div>
                                 <span>Download Statement</span>

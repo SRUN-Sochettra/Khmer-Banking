@@ -87,22 +87,22 @@ export default function TransferPage() {
     if (state === "SUCCESS" && transferResult) {
         return (
             <div className="max-w-lg mx-auto">
-                <Card className="bg-slate-900 border-slate-800">
+                <Card className="bg-card border-border">
                     <CardContent className="pt-10 pb-10 text-center space-y-6">
                         <div className="flex justify-center">
-                            <div className="bg-green-500/20 p-5 rounded-full">
-                                <CheckCircle2 className="w-12 h-12 text-green-500" />
+                            <div className="bg-primary/20 p-5 rounded-full">
+                                <CheckCircle2 className="w-12 h-12 text-primary" />
                             </div>
                         </div>
 
                         <div>
-                            <h2 className="text-2xl font-bold text-white">Transfer Successful!</h2>
-                            <p className="text-slate-400 mt-1">Your money is on its way.</p>
+                            <h2 className="text-2xl font-bold text-foreground">Transfer Successful!</h2>
+                            <p className="text-muted-foreground mt-1">Your money is on its way.</p>
                         </div>
 
                         {/* Receipt */}
-                        <div className="bg-slate-800 rounded-xl p-6 space-y-3 text-left">
-                            <h3 className="text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                        <div className="bg-muted rounded-xl p-6 space-y-3 text-left">
+                            <h3 className="text-muted-foreground text-xs font-semibold uppercase tracking-wider">
                                 Transaction Receipt
                             </h3>
                             <div className="space-y-3">
@@ -143,13 +143,13 @@ export default function TransferPage() {
                             <Button
                                 variant="outline"
                                 onClick={reset}
-                                className="flex-1 border-slate-700 text-slate-300 hover:bg-slate-800"
+                                className="flex-1 border-input text-foreground hover:bg-muted"
                             >
                                 New Transfer
                             </Button>
                             <Button
                                 onClick={() => window.print()}
-                                className="flex-1 bg-blue-600 hover:bg-blue-700"
+                                className="flex-1 bg-primary hover:bg-primary/90"
                             >
                                 Save Receipt
                             </Button>
@@ -163,26 +163,26 @@ export default function TransferPage() {
     return (
         <div className="max-w-2xl mx-auto space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-white">Send Money</h1>
-                <p className="text-slate-400">Transfer funds securely to any KhmerBank account</p>
+                <h1 className="text-3xl font-bold text-foreground">Send Money</h1>
+                <p className="text-muted-foreground">Transfer funds securely to any KhmerBank account</p>
             </div>
 
             {/* Progress Indicator */}
             <div className="flex items-center gap-3">
                 <Step number={1} label="Transfer Details" active={state === "IDLE"} done={state !== "IDLE"} />
-                <div className="flex-1 h-px bg-slate-800" />
+                <div className="flex-1 h-px bg-muted" />
                 <Step number={2} label="Verify OTP" active={state === "OTP_SENT"} done={state === "SUCCESS"} />
-                <div className="flex-1 h-px bg-slate-800" />
+                <div className="flex-1 h-px bg-muted" />
                 <Step number={3} label="Done" active={state === "SUCCESS"} done={false} />
             </div>
 
-            <Card className="bg-slate-900 border-slate-800">
+            <Card className="bg-card border-border">
                 <CardHeader>
-                    <CardTitle className="text-white flex items-center gap-2">
-                        <ArrowRightLeft className="w-5 h-5 text-blue-400" />
+                    <CardTitle className="text-foreground flex items-center gap-2">
+                        <ArrowRightLeft className="w-5 h-5 text-primary" />
                         Transfer Details
                     </CardTitle>
-                    <CardDescription className="text-slate-400">
+                    <CardDescription className="text-muted-foreground">
                         Enter the recipient&apos;s account number and amount
                     </CardDescription>
                 </CardHeader>
@@ -190,11 +190,11 @@ export default function TransferPage() {
                 <CardContent className="space-y-6">
                     {/* Receiver Account */}
                     <div className="space-y-2">
-                        <Label className="text-slate-200">Recipient Account Number</Label>
+                        <Label className="text-foreground">Recipient Account Number</Label>
                         <Input
                             placeholder="XXXX-XXXX-XXXX"
                             disabled={state === "OTP_SENT"}
-                            className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 font-mono"
+                            className="bg-muted border-input text-foreground placeholder:text-muted-foreground font-mono"
                             {...register("receiverAccountNumber")}
                         />
                         {errors.receiverAccountNumber && (
@@ -205,13 +205,13 @@ export default function TransferPage() {
                     {/* Amount + Currency Row */}
                     <div className="grid grid-cols-3 gap-3">
                         <div className="col-span-2 space-y-2">
-                            <Label className="text-slate-200">Amount</Label>
+                            <Label className="text-foreground">Amount</Label>
                             <Input
                                 type="number"
                                 step="0.01"
                                 placeholder="0.00"
                                 disabled={state === "OTP_SENT"}
-                                className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 text-lg font-semibold"
+                                className="bg-muted border-input text-foreground placeholder:text-muted-foreground text-lg font-semibold"
                                 {...register("amount", { valueAsNumber: true })}
                             />
                             {errors.amount && (
@@ -220,18 +220,18 @@ export default function TransferPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <Label className="text-slate-200">Currency</Label>
+                            <Label className="text-foreground">Currency</Label>
                             <Select
                                 defaultValue="USD"
                                 disabled={state === "OTP_SENT"}
                                 onValueChange={(val) => setValue("currency", val as "USD" | "KHR")}
                             >
-                                <SelectTrigger className="bg-slate-800 border-slate-700 text-white">
+                                <SelectTrigger className="bg-muted border-input text-foreground">
                                     <SelectValue />
                                 </SelectTrigger>
-                                <SelectContent className="bg-slate-800 border-slate-700">
-                                    <SelectItem value="USD" className="text-white">🇺🇸 USD</SelectItem>
-                                    <SelectItem value="KHR" className="text-white">🇰🇭 KHR</SelectItem>
+                                <SelectContent className="bg-muted border-input">
+                                    <SelectItem value="USD" className="text-foreground">🇺🇸 USD</SelectItem>
+                                    <SelectItem value="KHR" className="text-foreground">🇰🇭 KHR</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -239,9 +239,9 @@ export default function TransferPage() {
 
                     {/* Amount Preview */}
                     {watchedAmount > 0 && (
-                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
-                            <p className="text-slate-400 text-sm">You are sending</p>
-                            <p className="text-2xl font-bold text-blue-400">
+                        <div className="bg-primary/10 border border-border rounded-lg p-4">
+                            <p className="text-muted-foreground text-sm">You are sending</p>
+                            <p className="text-2xl font-bold text-primary">
                                 {formatCurrency(watchedAmount, watchedCurrency)}
                             </p>
                         </div>
@@ -249,28 +249,28 @@ export default function TransferPage() {
 
                     {/* Description */}
                     <div className="space-y-2">
-                        <Label className="text-slate-200">
+                        <Label className="text-foreground">
                             Description{" "}
-                            <span className="text-slate-500 font-normal">(Optional)</span>
+                            <span className="text-muted-foreground font-normal">(Optional)</span>
                         </Label>
                         <Input
                             placeholder="e.g. Rent for January"
                             disabled={state === "OTP_SENT"}
-                            className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
+                            className="bg-muted border-input text-foreground placeholder:text-muted-foreground"
                             {...register("description")}
                         />
                     </div>
 
                     {/* ─── OTP Section ──────────────────────────────────── */}
                     {state === "OTP_SENT" && (
-                        <div className="border border-amber-500/30 bg-amber-500/10 rounded-xl p-6 space-y-4">
+                        <div className="border border-amber-500/30 bg-accent/10 rounded-xl p-6 space-y-4">
                             <div className="flex items-center gap-2">
-                                <ShieldCheck className="w-5 h-5 text-amber-400" />
-                                <h3 className="text-amber-400 font-semibold">
+                                <ShieldCheck className="w-5 h-5 text-accent" />
+                                <h3 className="text-accent font-semibold">
                                     Security Verification Required
                                 </h3>
                             </div>
-                            <p className="text-slate-400 text-sm">
+                            <p className="text-muted-foreground text-sm">
                                 A 6-digit code has been sent to your registered email address.
                                 Enter it below to confirm this transfer.
                             </p>
@@ -282,14 +282,14 @@ export default function TransferPage() {
                                 <Button
                                     variant="outline"
                                     onClick={reset}
-                                    className="border-slate-700 text-slate-300 hover:bg-slate-800"
+                                    className="border-input text-foreground hover:bg-muted"
                                 >
                                     Cancel
                                 </Button>
                                 <Button
                                     onClick={handleTransfer}
                                     disabled={otpCode.length !== 6 || isTransferring}
-                                    className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold"
+                                    className="flex-1 bg-primary hover:bg-primary text-primary-foreground font-semibold"
                                 >
                                     {isTransferring ? (
                                         <>
@@ -312,7 +312,7 @@ export default function TransferPage() {
                         <Button
                             onClick={handleRequestOtp}
                             disabled={isRequestingOtp}
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold h-12 text-base"
+                            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-12 text-base"
                         >
                             {isRequestingOtp ? (
                                 <>
@@ -331,11 +331,11 @@ export default function TransferPage() {
             </Card>
 
             {/* Security Notice */}
-            <div className="flex items-start gap-3 bg-slate-900 border border-slate-800 rounded-xl p-4">
-                <ShieldCheck className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
+            <div className="flex items-start gap-3 bg-card border border-border rounded-xl p-4">
+                <ShieldCheck className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                 <div>
-                    <p className="text-slate-300 text-sm font-medium">Your transfer is protected</p>
-                    <p className="text-slate-500 text-xs mt-1">
+                    <p className="text-foreground text-sm font-medium">Your transfer is protected</p>
+                    <p className="text-muted-foreground text-xs mt-1">
                         All transfers are encrypted, require OTP verification, and are
                         logged for your security. Contact support if you notice any
                         suspicious activity.
@@ -363,16 +363,16 @@ function Step({
         <div className="flex flex-col items-center gap-1">
             <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${done
-                    ? "bg-green-600 text-white"
+                    ? "bg-primary text-primary-foreground"
                     : active
-                        ? "bg-blue-600 text-white"
-                        : "bg-slate-800 text-slate-500"
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-muted-foreground"
                     }`}
             >
                 {done ? "✓" : number}
             </div>
             <span
-                className={`text-xs whitespace-nowrap ${active ? "text-blue-400" : done ? "text-green-400" : "text-slate-600"
+                className={`text-xs whitespace-nowrap ${active ? "text-primary" : done ? "text-primary" : "text-muted-foreground"
                     }`}
             >
                 {label}
@@ -444,7 +444,7 @@ function OtpInput({
                     onChange={(e) => handleChange(i, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(i, e)}
                     onPaste={handlePaste}
-                    className="w-11 h-13 text-center text-xl font-bold rounded-lg bg-slate-800 border-2 border-slate-600 text-white focus:border-amber-500 focus:outline-none transition-colors"
+                    className="w-11 h-13 text-center text-xl font-bold rounded-lg bg-muted border-2 border-input text-foreground focus:border-amber-500 focus:outline-none transition-colors"
                 />
             ))}
         </div>
@@ -465,14 +465,14 @@ function ReceiptRow({
     success?: boolean
 }) {
     return (
-        <div className="flex items-center justify-between py-1 border-b border-slate-700/50 last:border-0">
-            <span className="text-slate-400 text-sm">{label}</span>
+        <div className="flex items-center justify-between py-1 border-b border-input/50 last:border-0">
+            <span className="text-muted-foreground text-sm">{label}</span>
             <span
                 className={`text-sm font-medium ${highlight
-                    ? "text-blue-400 text-base font-bold"
+                    ? "text-primary text-base font-bold"
                     : success
-                        ? "text-green-400"
-                        : "text-white"
+                        ? "text-primary"
+                        : "text-foreground"
                     } ${mono ? "font-mono" : ""}`}
             >
                 {value}
@@ -483,7 +483,7 @@ function ReceiptRow({
 
 function ErrorMessage({ message }: { message: string }) {
     return (
-        <p className="text-red-400 text-sm flex items-center gap-1">
+        <p className="text-destructive text-sm flex items-center gap-1">
             <AlertCircle className="w-3 h-3" />
             {message}
         </p>

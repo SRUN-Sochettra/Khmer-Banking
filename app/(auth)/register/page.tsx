@@ -64,16 +64,16 @@ export default function RegisterPage() {
 
                 {/* Logo */}
                 <div className="flex items-center justify-center gap-2 mb-8">
-                    <div className="bg-blue-500 p-2 rounded-lg">
-                        <Building2 className="w-6 h-6 text-white" />
+                    <div className="bg-primary p-2 rounded-lg">
+                        <Building2 className="w-6 h-6 text-primary-foreground" />
                     </div>
-                    <span className="text-white text-2xl font-bold">KhmerBank</span>
+                    <span className="text-primary-foreground text-2xl font-bold">KhmerBank</span>
                 </div>
 
-                <Card className="border-slate-700 bg-slate-800/50 backdrop-blur">
+                <Card className="border-input bg-muted/50 backdrop-blur">
                     <CardHeader className="space-y-1">
-                        <CardTitle className="text-2xl text-white">Create account</CardTitle>
-                        <CardDescription className="text-slate-400">
+                        <CardTitle className="text-2xl text-foreground">Create account</CardTitle>
+                        <CardDescription className="text-muted-foreground">
                             Open your digital banking account today
                         </CardDescription>
                     </CardHeader>
@@ -83,57 +83,57 @@ export default function RegisterPage() {
 
                             {/* Full Name */}
                             <div className="space-y-2">
-                                <Label htmlFor="fullName" className="text-slate-200">
+                                <Label htmlFor="fullName" className="text-foreground">
                                     Full Name
                                 </Label>
                                 <Input
                                     id="fullName"
                                     placeholder="Sokha Chan"
-                                    className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+                                    className="bg-muted border-input text-foreground placeholder:text-muted-foreground"
                                     {...register("fullName")}
                                 />
                                 {errors.fullName && (
-                                    <p className="text-red-400 text-sm">{errors.fullName.message}</p>
+                                    <p className="text-destructive text-sm">{errors.fullName.message}</p>
                                 )}
                             </div>
 
                             {/* Email */}
                             <div className="space-y-2">
-                                <Label htmlFor="email" className="text-slate-200">
+                                <Label htmlFor="email" className="text-foreground">
                                     Email Address
                                 </Label>
                                 <Input
                                     id="email"
                                     type="email"
                                     placeholder="sokha@example.com"
-                                    className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+                                    className="bg-muted border-input text-foreground placeholder:text-muted-foreground"
                                     {...register("email")}
                                 />
                                 {errors.email && (
-                                    <p className="text-red-400 text-sm">{errors.email.message}</p>
+                                    <p className="text-destructive text-sm">{errors.email.message}</p>
                                 )}
                             </div>
 
                             {/* Phone */}
                             <div className="space-y-2">
-                                <Label htmlFor="phone" className="text-slate-200">
+                                <Label htmlFor="phone" className="text-foreground">
                                     Phone Number
                                 </Label>
                                 <Input
                                     id="phone"
                                     type="tel"
                                     placeholder="012 345 678"
-                                    className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+                                    className="bg-muted border-input text-foreground placeholder:text-muted-foreground"
                                     {...register("phone")}
                                 />
                                 {errors.phone && (
-                                    <p className="text-red-400 text-sm">{errors.phone.message}</p>
+                                    <p className="text-destructive text-sm">{errors.phone.message}</p>
                                 )}
                             </div>
 
                             {/* Password */}
                             <div className="space-y-2">
-                                <Label htmlFor="password" className="text-slate-200">
+                                <Label htmlFor="password" className="text-foreground">
                                     Password
                                 </Label>
                                 <div className="relative">
@@ -141,25 +141,25 @@ export default function RegisterPage() {
                                         id="password"
                                         type={showPassword ? "text" : "password"}
                                         placeholder="Min 8 chars, uppercase & symbol"
-                                        className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 pr-10"
+                                        className="bg-muted border-input text-foreground placeholder:text-muted-foreground pr-10"
                                         {...register("password")}
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                                     >
                                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                     </button>
                                 </div>
                                 {errors.password && (
-                                    <p className="text-red-400 text-sm">{errors.password.message}</p>
+                                    <p className="text-destructive text-sm">{errors.password.message}</p>
                                 )}
                             </div>
 
                             {/* Confirm Password */}
                             <div className="space-y-2">
-                                <Label htmlFor="confirmPassword" className="text-slate-200">
+                                <Label htmlFor="confirmPassword" className="text-foreground">
                                     Confirm Password
                                 </Label>
                                 <div className="relative">
@@ -167,26 +167,26 @@ export default function RegisterPage() {
                                         id="confirmPassword"
                                         type={showConfirm ? "text" : "password"}
                                         placeholder="Re-enter your password"
-                                        className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 pr-10"
+                                        className="bg-muted border-input text-foreground placeholder:text-muted-foreground pr-10"
                                         {...register("confirmPassword")}
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowConfirm(!showConfirm)}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                                     >
                                         {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                     </button>
                                 </div>
                                 {errors.confirmPassword && (
-                                    <p className="text-red-400 text-sm">{errors.confirmPassword.message}</p>
+                                    <p className="text-destructive text-sm">{errors.confirmPassword.message}</p>
                                 )}
                             </div>
 
                             <Button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+                                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
                             >
                                 {isLoading ? (
                                     <>
@@ -202,9 +202,9 @@ export default function RegisterPage() {
                     </CardContent>
 
                     <CardFooter>
-                        <p className="text-slate-400 text-sm text-center w-full">
+                        <p className="text-muted-foreground text-sm text-center w-full">
                             Already have an account?{" "}
-                            <Link href="/login" className="text-blue-400 hover:text-blue-300 font-medium">
+                            <Link href="/login" className="text-primary hover:text-primary/80 font-medium">
                                 Sign in
                             </Link>
                         </p>
