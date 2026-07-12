@@ -91,7 +91,7 @@ export async function GET(req: NextRequest) {
         let totalCredits = 0
         let totalDebits = 0
 
-        const mappedTransactions = transactions.map((txn) => {
+        const mappedTransactions = transactions.map((txn: { id: string; amount: { toNumber: () => number, toString: () => string }; currency: string; type: string; status: string; senderAccountId: string; reference: string; completedAt: Date | null; createdAt: Date; description: string | null; receiverAccount: { accountNumber: string, user: { fullName: string } }; senderAccount: { accountNumber: string, user: { fullName: string } } }) => {
             const isSender = txn.senderAccountId === account.id
             const amount = txn.amount.toNumber()
 

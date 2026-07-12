@@ -9,7 +9,7 @@ import {
     successResponse,
     generateTransactionReference,
 } from "@/lib/utils"
-import { Prisma } from "@prisma/client"
+
 
 export async function POST(req: NextRequest) {
     try {
@@ -110,18 +110,18 @@ export async function POST(req: NextRequest) {
         }
 
         // ─── Step 7: Balance Check ───────────────────────────────
-        const transferAmount = new Prisma.Decimal(amount)
-        const minimumBalance = new Prisma.Decimal("0.00")
+        const transferAmount = Number(amount)
+        const minimumBalance = 0
 
-        if (senderAccount.balance.lessThan(transferAmount)) {
+        if (Number(senderAccount.balance) < transferAmount) {
             return NextResponse.json(
                 errorResponse("Insufficient balance to complete this transfer."),
                 { status: 400 }
             )
         }
 
-        const balanceAfterTransfer = senderAccount.balance.minus(transferAmount)
-        if (balanceAfterTransfer.lessThan(minimumBalance)) {
+        const balanceAfterTransfer = Number(senderAccount.balance) - transferAmount
+        if (balanceAfterTransfer < minimumBalance) {
             return NextResponse.json(
                 errorResponse("Transfer would bring your balance below minimum."),
                 { status: 400 }
@@ -132,7 +132,7 @@ export async function POST(req: NextRequest) {
         // This is the most critical part.
         // Everything inside $transaction either ALL succeeds 
         // or ALL fails. No partial updates.
-        const result = await db.$transaction(async (tx) => {
+        const result = await db.$transaction(async (tx: Parameters<Parameters<typeof db.$transaction>[0]>[0]) => {
 
             // LOCK: Read sender with a lock to prevent race conditions
             // If two transfers happen simultaneously, only one proceeds
@@ -143,8 +143,8 @@ export async function POST(req: NextRequest) {
       `
 
             // Re-validate balance after acquiring lock
-            const currentBalance = new Prisma.Decimal(lockedSender[0].balance)
-            if (currentBalance.lessThan(transferAmount)) {
+            const currentBalance = Number(lockedSender[0].balance)
+            if (currentBalance < transferAmount) {
                 throw new Error("INSUFFICIENT_BALANCE")
             }
 
