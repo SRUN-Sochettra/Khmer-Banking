@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { errorResponse, successResponse } from "@/lib/utils"
-import { TransactionType, TransactionStatus } from "@prisma/client"
-import { Prisma } from "@prisma/client"
+
+
 
 export async function GET(req: NextRequest) {
     try {
@@ -22,9 +22,9 @@ export async function GET(req: NextRequest) {
         const skip = (page - 1) * limit
 
         // ✅ Validate transaction type against the actual enum
-        const validTypes = Object.values(TransactionType)
-        const filterType = type && validTypes.includes(type as TransactionType)
-            ? (type as TransactionType)
+        const validTypes = ["TRANSFER", "DEPOSIT", "WITHDRAWAL", "FEE"]
+        const filterType = type && validTypes.includes(type)
+            ? type
             : undefined
 
         // ✅ If type was provided but invalid, reject it
@@ -37,9 +37,9 @@ export async function GET(req: NextRequest) {
             )
         }
 
-        const validStatuses = Object.values(TransactionStatus)
-        const filterStatus = status && validStatuses.includes(status as TransactionStatus)
-            ? (status as TransactionStatus)
+        const validStatuses = ["PENDING", "COMPLETED", "FAILED", "REVERSED"]
+        const filterStatus = status && validStatuses.includes(status)
+            ? status
             : undefined
 
         if (status && status !== "ALL" && !filterStatus) {
@@ -57,10 +57,10 @@ export async function GET(req: NextRequest) {
             select: { id: true },
         })
 
-        const accountIds = userAccounts.map((a) => a.id)
+        const accountIds = userAccounts.map((a: { id: string }) => a.id)
 
         // ─── Build Filter ────────────────────────────────────────
-        const where: Prisma.TransactionWhereInput = {
+        const where: { AND: Array<Record<string, unknown>> } = {
             AND: [
                 {
                     OR: [
@@ -72,15 +72,15 @@ export async function GET(req: NextRequest) {
         }
 
         if (filterType) {
-            (where.AND as Prisma.TransactionWhereInput[]).push({ type: filterType })
+            where.AND.push({ type: filterType })
         }
 
         if (filterStatus) {
-            (where.AND as Prisma.TransactionWhereInput[]).push({ status: filterStatus })
+            where.AND.push({ status: filterStatus })
         }
 
         if (query) {
-            (where.AND as Prisma.TransactionWhereInput[]).push({
+            where.AND.push({
                 OR: [
                     { reference: { contains: query, mode: "insensitive" } },
                     { description: { contains: query, mode: "insensitive" } },

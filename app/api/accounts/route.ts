@@ -28,7 +28,7 @@ export async function GET() {
 
         return NextResponse.json(
             successResponse(
-                accounts.map((a) => ({
+                accounts.map((a: { id: string; accountNumber: string; accountType: string; currency: string; balance: { toString: () => string }; isActive: boolean; createdAt: Date }) => ({
                     ...a,
                     balance: a.balance.toString(),
                 }))

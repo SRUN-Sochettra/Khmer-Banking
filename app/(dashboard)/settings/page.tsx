@@ -169,7 +169,7 @@ export default async function SettingsPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                    {user.accounts.map((account) => (
+                    {user.accounts.map((account: { id: string; accountType: string; currency: string; accountNumber: string; isActive: boolean }) => (
                         <div
                             key={account.id}
                             className="flex items-center justify-between p-4 bg-muted/50 rounded-xl border border-input/50"

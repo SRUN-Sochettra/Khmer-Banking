@@ -17,7 +17,7 @@ export async function GET() {
             select: { id: true },
         })
 
-        const accountIds = accounts.map((a) => a.id)
+        const accountIds = accounts.map((a: { id: string }) => a.id)
 
         // ─── Last 6 months of completed transactions ─────────────
         const sixMonthsAgo = new Date()
@@ -44,7 +44,7 @@ export async function GET() {
         })
 
         // ─── Map with isSender ───────────────────────────────────
-        const mapped = transactions.map((txn) => ({
+        const mapped = transactions.map((txn: { id: string; amount: { toString: () => string }; currency: string; senderAccountId: string; createdAt: Date }) => ({
             id: txn.id,
             amount: txn.amount.toString(),
             currency: txn.currency,
@@ -54,12 +54,12 @@ export async function GET() {
 
         // ─── Quick stats ─────────────────────────────────────────
         const totalSentUSD = mapped
-            .filter((t) => t.isSender && t.currency === "USD")
-            .reduce((s, t) => s + parseFloat(t.amount), 0)
+            .filter((t: { isSender: boolean; currency: string; amount: string; createdAt: Date }) => t.isSender && t.currency === "USD")
+            .reduce((s: number, t: { amount: string }) => s + parseFloat(t.amount), 0)
 
         const totalReceivedUSD = mapped
-            .filter((t) => !t.isSender && t.currency === "USD")
-            .reduce((s, t) => s + parseFloat(t.amount), 0)
+            .filter((t: { isSender: boolean; currency: string; amount: string; createdAt: Date }) => !t.isSender && t.currency === "USD")
+            .reduce((s: number, t: { amount: string }) => s + parseFloat(t.amount), 0)
 
         const totalTransactions = mapped.length
 
@@ -70,22 +70,22 @@ export async function GET() {
 
         const thisMonthSpend = mapped
             .filter(
-                (t) =>
+                (t: { isSender: boolean; currency: string; amount: string; createdAt: Date }) =>
                     t.isSender &&
                     t.currency === "USD" &&
                     new Date(t.createdAt) >= thisMonthStart
             )
-            .reduce((s, t) => s + parseFloat(t.amount), 0)
+            .reduce((s: number, t: { amount: string }) => s + parseFloat(t.amount), 0)
 
         const lastMonthSpend = mapped
             .filter(
-                (t) =>
+                (t: { isSender: boolean; currency: string; amount: string; createdAt: Date }) =>
                     t.isSender &&
                     t.currency === "USD" &&
                     new Date(t.createdAt) >= lastMonthStart &&
                     new Date(t.createdAt) < thisMonthStart
             )
-            .reduce((s, t) => s + parseFloat(t.amount), 0)
+            .reduce((s: number, t: { amount: string }) => s + parseFloat(t.amount), 0)
 
         const spendingChange =
             lastMonthSpend === 0

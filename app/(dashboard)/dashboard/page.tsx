@@ -19,10 +19,10 @@ export default async function DashboardPage() {
         orderBy: { createdAt: "asc" },
     })
 
-    const usdAccount = accounts.find((a) => a.currency === "USD")
+    const usdAccount = accounts.find((a: { currency: string; accountNumber: string; id: string; balance: { toString: () => string }; accountType: string }) => a.currency === "USD")
 
     // ✅ Fetch real recent transactions
-    const userAccountIds = accounts.map((a) => a.id)
+    const userAccountIds = accounts.map((a: { id: string }) => a.id)
 
     const recentTransactions = await db.transaction.findMany({
         where: {
@@ -43,8 +43,8 @@ export default async function DashboardPage() {
         take: 5,
     })
 
-    const usdBalance = accounts.find((a) => a.currency === "USD")?.balance.toNumber() ?? 0
-    const khrBalance = accounts.find((a) => a.currency === "KHR")?.balance.toNumber() ?? 0
+    const usdBalance = accounts.find((a: { currency: string; balance: { toNumber: () => number } }) => a.currency === "USD")?.balance.toNumber() ?? 0
+    const khrBalance = accounts.find((a: { currency: string; balance: { toNumber: () => number } }) => a.currency === "KHR")?.balance.toNumber() ?? 0
 
     return (
         <div className="space-y-8">
@@ -55,7 +55,7 @@ export default async function DashboardPage() {
 
             {/* Balance Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {accounts.map((account) => (
+                {accounts.map((account: { id: string; accountType: string; currency: string; balance: { toString: () => string }; accountNumber: string }) => (
                     <Card
                         key={account.id}
                         className="bg-card border-border hover:border-blue-500/50 transition-colors"
@@ -121,7 +121,7 @@ export default async function DashboardPage() {
                                 </div>
                             ) : (
                                 <div className="space-y-1">
-                                    {recentTransactions.map((txn) => {
+                                    {recentTransactions.map((txn: { senderAccountId: string; id: string; receiverAccount: { user: { fullName: string } }; senderAccount: { user: { fullName: string } }; reference: string; amount: { toString: () => string }; currency: string }) => {
                                         const isSender = userAccountIds.includes(
                                             txn.senderAccountId
                                         )
